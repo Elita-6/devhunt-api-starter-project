@@ -13,7 +13,54 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+
+        try {
+            //code...
+            $posts = Post::orderBy("created_at","desc")->get();
+
+            $data = [];
+
+
+            foreach ($posts as $post) {
+                $tags = [];
+                $comments = [];
+
+                // get tags
+                foreach ($posts->tags as $tag) {
+                    array_push($tags, [$tag->tagDesign]);
+                }
+
+                // Get comments
+                foreach ($post->comments as $comment) {
+                    array_push($comments, [
+                        "content" => $comment->content,
+                        "user" => [
+                            "userId"=> $comment->user->userId,
+                            "userName" => $comment->user->userName,
+                            "profileUrl"=> $comment->user->profileUrl,
+                        ],
+                    ]);
+                }
+
+                // Set all data together
+                array_push($data, [
+                    "postId" => $post->postId,
+                    "postDescription" => $post->postDescription,
+                    "dateCreation" => $post->created_at,
+                    "user" => [
+                        "userId" => $post->user->userId,
+                        "userName" => $post->user->userName,
+                        "profileUrl" => $post->user->profileUrl,
+                    ],
+                    "tags"=> $tags,
+                    "comments" => $comments,
+                ]);
+            }
+
+            return response()->json($data, 200);
+        } catch (\Exception $th) {
+            return response()->json([["errorMessage"=> $th->getMessage()]],500);
+        }
     }
 
     /**
