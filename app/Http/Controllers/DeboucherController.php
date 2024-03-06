@@ -10,7 +10,7 @@ class DeboucherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, int $parcour)
+    public function index(Request $request)
     {
         return response()->json(Deboucher::all());
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\TagPost;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,53 @@ class PostController extends Controller
     public function index()
     {
 
-//        dd(Auth::user());
+        try {
+            //code...
+            $posts = Post::orderBy("created_at","desc")->get();
 
-        return response()->json(Post::all());
+            $data = [];
+
+
+            foreach ($posts as $post) {
+                $tags = [];
+                $comments = [];
+
+                // get tags
+                foreach ($posts->tags as $tag) {
+                    array_push($tags, [$tag->tagDesign]);
+                }
+
+                // Get comments
+                foreach ($post->comments as $comment) {
+                    array_push($comments, [
+                        "content" => $comment->content,
+                        "user" => [
+                            "userId"=> $comment->user->userId,
+                            "userName" => $comment->user->userName,
+                            "profileUrl"=> $comment->user->profileUrl,
+                        ],
+                    ]);
+                }
+
+                // Set all data together
+                array_push($data, [
+                    "postId" => $post->postId,
+                    "postDescription" => $post->postDescription,
+                    "dateCreation" => $post->created_at,
+                    "user" => [
+                        "userId" => $post->user->userId,
+                        "userName" => $post->user->userName,
+                        "profileUrl" => $post->user->profileUrl,
+                    ],
+                    "tags"=> $tags,
+                    "comments" => $comments,
+                ]);
+            }
+
+            return response()->json($data, 200);
+        } catch (\Exception $th) {
+            return response()->json([["errorMessage"=> $th->getMessage()]],500);
+        }
     }
 
     /**
@@ -27,20 +72,38 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $payload = JWTAuth::parseToken()->getPayload();
-        $userId = $payload['userid'];
+        try {
+            $data = $request->only([
+                "postTitle",
+                "postDescription",
+                "userId",
+                "tags",
+            ]);
 
-        $data = $request->only(["postTitle", "postDescription"]);
 
+            // $payload = JWTAuth::parseToken()->getPayload();
+            // $userId = $payload['userid'];
 
-        $post = Post::create([
-            "posttitle" => $data['postTitle'],
-            "postDescription" => $data['postDescription'],
-            "userId" => $userId,
-        ]);
+            $payload = JWTAuth::parseToken()->getPayload();
+            $userId = $payload['userid'];
 
-        return response()->json($post, 201);
+            $post = Post::create([
+                "postTitle"=>$data["postTitle"],
+                "postDescription"=>$data["postDescription"],
+                "userId" => $data["userId"],
+            ]);
+
+            foreach ($data["tags"] as $tag) {
+                TagPost::create([
+                    "tagId"=>$tag,
+                    "postId"=>$post->postId
+                ]);
+            }
+
+            return response()->json(["created"=>true], 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()], 500);
+        }
 
     }
 
@@ -59,16 +122,18 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
-        $payload = JWTAuth::parseToken()->getPayload();
-        $userId = $payload['userid'];
+        try {
+            $data = $request->only([
+                "postTitle",
+                "postDescription",
+            ]);
 
-        $data = $request->only(["postTitle", "postDescription"]);
-        $post->postTitle = $data['postTitle'];
-        $post->postDescription = $data['postDescription'];
-        $post->save();
+            $post->postTitle = $data["postTitle"];
+            $post->postDescription = $data["postDescription"];
 
-        return response()->json($post, 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()], 500);
+        }
     }
 
     /**
