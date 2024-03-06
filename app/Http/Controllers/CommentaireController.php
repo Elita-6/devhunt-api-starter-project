@@ -10,9 +10,10 @@ class CommentaireController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($postid)
     {
         //
+        return response()->json(Commentaire::where('postId', $postid)->get());
     }
 
     /**

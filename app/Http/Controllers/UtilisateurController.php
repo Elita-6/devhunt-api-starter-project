@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Utilisateur;
+use App\Models\User as Utilisation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        return response()->json(Utilisateur::where("active", true)->get());
+        return response()->json(Utilisation::where("active", true)->get());
     }
 
     /**
@@ -45,10 +45,10 @@ class UtilisateurController extends Controller
                $filename = 'pdp_'.$request->input('userName').'.'.$file->getClientOriginalExtension();
                $path = $file->storeAs('images', $filename, 'public');
 
-               $loginuser =  Utilisateur::firstOrCreate(
+               $loginuser =  Utilisation::firstOrCreate(
                    ['email' => $request->input('email')],
                    [
-                   'id' => $userid,
+                   'userId' => $userid,
                    'username' => $request->input('username'),
                    'firstName' => $request->input('firstName'),
                    'lastName' => $request->input('lastName'),
@@ -65,9 +65,9 @@ class UtilisateurController extends Controller
 
                        $user = Auth::user();
 
-                       // dd($user->userId);
+//                        dd($user->userId);
 
-                       $token = JWTAuth::fromUser($loginuser, ['userid'=>$loginuser->id]);
+                       $token = JWTAuth::fromUser($loginuser, ['userid'=>$loginuser->userId]);
 //                        $loginuser->forceFill(['api_token' => $token])->save();
                        $cookie = cookie('jwt', $token, 60 * 24);
 
@@ -91,10 +91,10 @@ class UtilisateurController extends Controller
            try
            {
                // dd($request->all());
-               $loginuser =  Utilisateur::firstOrCreate(
+               $loginuser =  Utilisation::firstOrCreate(
                                  ['email' => $request->input('email')],
                                  [
-                                 'id' => $userid,
+                                 'userId' => $userid,
                                  'username' => $request->input('username'),
                                  'firstName' => $request->input('firstName'),
                                  'lastName' => $request->input('lastName'),
@@ -103,7 +103,7 @@ class UtilisateurController extends Controller
                                      'profileUrl' => $request->input('profileUrl')
                           ]);
 
-               //  dd($loginuser->mail);
+//                 dd($loginuser->mail);
 
 
                if($loginuser){
@@ -111,9 +111,9 @@ class UtilisateurController extends Controller
 
                    $user = Auth::user();
 
-                   // dd($user->userId);
+//                    dd($loginuser->userId);
 
-                    $token = JWTAuth::fromUser($loginuser, ['userid'=>$loginuser->id]);
+                    $token = JWTAuth::fromUser($loginuser, ['userid'=>$loginuser->userId]);
 //                    $loginuser->forceFill(['api_token' => $token])->save();
                    $cookie = cookie('jwt', $token, 60 * 24);
 
@@ -139,7 +139,7 @@ class UtilisateurController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Utilisateur $utilisateur)
+    public function show(Utilisation $utilisateur)
     {
         return response()->json($utilisateur);
     }
@@ -147,7 +147,7 @@ class UtilisateurController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Utilisateur $utilisateur)
+    public function update(Request $request, Utilisation $utilisateur)
     {
         $data = $request->only([
             "username",
@@ -165,7 +165,7 @@ class UtilisateurController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Utilisateur $utilisateur)
+    public function destroy(Utilisation $utilisateur)
     {
         //
     }

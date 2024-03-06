@@ -11,12 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory;
 
     protected $fillable = [
+        'userId',
         'userName',
         'firstName',
         'lastName',
@@ -28,6 +30,7 @@ class User extends Authenticatable
     ];
 
     protected $primaryKey = "userId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",
@@ -130,5 +133,20 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Commentaire::class);
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
