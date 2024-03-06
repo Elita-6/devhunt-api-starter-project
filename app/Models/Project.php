@@ -16,6 +16,7 @@ class Project extends Model
     protected $fillable = [
         'title',
         'projectDescription',
+        'imageUrl',
         'startDate',
         'endDate',
         'profileID',

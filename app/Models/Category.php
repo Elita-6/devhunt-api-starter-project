@@ -13,6 +13,7 @@ class Category extends Model
 
     protected $fillable = [
         "categoryDesign",
+        "icon",
     ];
 
     protected $primaryKey = "categoryId";

@@ -15,9 +15,14 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        "userId",
         "description",
+        "linkGithub",
+        "linkLinkedin",
+        "linkPortfolio",
         "isProf",
+        "userId",
+        "parcourId",
+        "porteId"
     ];
 
     protected $primaryKey = "profileId";

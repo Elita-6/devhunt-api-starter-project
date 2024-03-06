@@ -12,7 +12,8 @@ class ParcourController extends Controller
      */
     public function index()
     {
-        //
+        $parcours = Parcour::all();
+        return response()->json($parcours);
     }
 
     /**
@@ -20,7 +21,19 @@ class ParcourController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $parcour = Parcour::create($request->only([
+                "title",
+                "parcourDesign",
+                "parcourDescription"
+            ]));
+
+            return response()->json($parcour, 201);
+
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()]);
+        }
+
     }
 
     /**
@@ -28,7 +41,7 @@ class ParcourController extends Controller
      */
     public function show(Parcour $parcour)
     {
-        //
+        return response()->json($parcour);
     }
 
     /**
@@ -36,7 +49,17 @@ class ParcourController extends Controller
      */
     public function update(Request $request, Parcour $parcour)
     {
-        //
+        try {
+            $parcour->update($request->only([
+                "title",
+                "parcourDesign",
+                "parcourDescription"
+            ]));
+
+            return response()->json($parcour,200);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -44,6 +67,11 @@ class ParcourController extends Controller
      */
     public function destroy(Parcour $parcour)
     {
-        //
+        try {
+            $parcour->delete();
+            return response()->json(["deleted"=>true],204);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 }

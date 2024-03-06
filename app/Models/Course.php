@@ -13,6 +13,7 @@ class Course extends Model
 
     protected $fillable = [
         "courseName",
+        "courseDescription",
         "sendinDate",
         "courseUrl",
         "filetype",

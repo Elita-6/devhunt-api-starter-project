@@ -12,7 +12,7 @@ class DomainController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Domain::all());
     }
 
     /**
@@ -20,7 +20,14 @@ class DomainController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(["domainName"]);
+        try {
+            $domain = Domain::create($data);
+
+            return response()->json(["created" => true], 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage" => $th->getMessage()],500);
+        }
     }
 
     /**
@@ -36,7 +43,14 @@ class DomainController extends Controller
      */
     public function update(Request $request, Domain $domain)
     {
-        //
+        $data = $request->only(["domainName"]);
+        try {
+            $domain->update($data);
+            $domain->save();
+            return response()->json(["updated"=> true],200);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()],500);
+        }
     }
 
     /**
@@ -44,6 +58,11 @@ class DomainController extends Controller
      */
     public function destroy(Domain $domain)
     {
-        //
+        try {
+            $domain->delete();
+            return response()->json(["deleted"=> true],204);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()],500);
+        }
     }
 }

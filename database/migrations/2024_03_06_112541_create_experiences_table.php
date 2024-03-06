@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->uuid("experienceId")->default(Str::uuid())->primary();
-            $table->string("experienceTitle");
+            $table->string("experiencePost");
+            $table->string("experienceLocal")->nullable();
             $table->string("experienceDescription");
             $table->dateTime("dateStart")->nullable();
             $table->dateTime("dateEnd")->nullable();
