@@ -12,7 +12,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        return Tag::all();
     }
 
     /**
@@ -20,7 +20,15 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $tag = Tag::create($request->only([
+                "tagDesign",
+            ]));
+
+            return response()->json($tag, 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()], 500);
+        }
     }
 
     /**
@@ -36,7 +44,13 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        try {
+            $tag->update($request->only([
+                "tagDesign"
+            ]));
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()], 500);
+        }
     }
 
     /**

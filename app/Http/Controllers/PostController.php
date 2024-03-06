@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\TagPost;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -20,7 +21,31 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->only([
+                "postTitle",
+                "postDescription",
+                "userId",
+                "tags",
+            ]);
+
+            $post = Post::create([
+                "postTitle"=>$data["postTitle"],
+                "postDescription"=>$data["postDescription"],
+                "userId" => $data["userId"],
+            ]);
+
+            foreach ($data["tags"] as $tag) {
+                TagPost::create([
+                    "tagId"=>$tag,
+                    "postId"=>$post->postId
+                ]);
+            }
+
+            return response()->json(["created"=>true], 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()], 500);
+        }
     }
 
     /**
@@ -36,7 +61,18 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        try {
+            $data = $request->only([
+                "postTitle",
+                "postDescription",
+            ]);
+
+            $post->postTitle = $data["postTitle"];
+            $post->postDescription = $data["postDescription"];
+
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()], 500);
+        }
     }
 
     /**
