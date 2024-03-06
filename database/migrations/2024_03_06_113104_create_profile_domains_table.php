@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parcour_domains', function (Blueprint $table) {
+        Schema::create('profile_domains', function (Blueprint $table) {
             $table->id();
-            $table->uuid('parcourId')->nullable();
+            $table->uuid('profileId')->nullable();
             $table->uuid('domainId')->nullable();
             $table->timestamps();
 
-            $table->foreign("parcourId")
-            ->references("parcourId")
-            ->on("parcours")
+            $table->foreign("profileId")
+            ->references("profileId")
+            ->on("user_profiles")
             ->onDelete("set null")
             ->onUpdate("cascade");
 

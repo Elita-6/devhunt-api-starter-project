@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Reaction extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "postId",
+        "userId"
+    ];
 }
