@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ApartController;
+use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\UtilisateurController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("/exemple", [ApartController::class, "exemple"]);
 Route::apiResource("user", UtilisateurController::class);
-Route::post('/chat/generate-response', 'ChatController@generateResponse');
+Route::post('/chat/generate-response', [ChatController::class, 'generateResponse']);
+Route::post('/facebook/generate-response', [FacebookController::class, 'publishPost']);
 //Route::apiResource("profile", UserProfileController::class);
 //Route::apiResource('technology', TechnologyController::class);
 //Route::apiResource('project', ProjectController::class);

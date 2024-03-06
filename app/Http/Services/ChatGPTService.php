@@ -3,13 +3,22 @@
 namespace App\Http\Services;
 
 use GuzzleHttp\Client;
+use Illuminate\Container\Container;
+use Illuminate\Support\Facades\Http;
+use OpenAI\Laravel\Facades\OpenAI;
+
 class ChatGPTService
 {
-    protected $client;
+    protected $container;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->client = new Client([
+        $this->container = $container;
+    }
+
+    public function getChatGPTClient()
+    {
+        return new Client([
             'base_uri' => 'https://api.openai.com/v1/',
             'headers' => [
                 'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
@@ -18,17 +27,23 @@ class ChatGPTService
         ]);
     }
 
-    public function generateResponse($prompt)
+    public function getChatGPTResponse($message)
     {
-        $response = $this->client->post('engines/davinci-codex/completions', [
-            'json' => [
-                'prompt' => $prompt,
-                'max_tokens' => 60,
-                'temperature' => 0.7,
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('OPEN_API_KEY'),
+            'Content-Type' => 'application/json',
+        ])->post("https://api.openai.com/v1/chat/completions",
+           [
+               "model" => "gpt-3.5-turbo",
+               "message" => [
+                "role" => "user",
+               "content" => $message
             ],
-        ]);
+               "temperature" => 0,
+               "max_tokens" => 2048
+           ]
+        )->body();
 
-        $body = json_decode($response->getBody(), true);
-        return $body['choices'][0]['text'];
+        return $response()->json(json_decode($response));
     }
 }
