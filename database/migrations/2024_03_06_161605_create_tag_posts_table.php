@@ -11,12 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('posts', function(Blueprint $table) {
+        Schema::create('tag_posts', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
+
+        Schema::table('tag_posts', function(Blueprint $table) {
             $table->uuid('tagId')->nullable();
+            $table->uuid('postId')->nullable();
 
             $table->foreign("tagId")
             ->references("tagId")
             ->on("tags")
+            ->onDelete("set null")
+            ->onUpdate("cascade");
+
+            $table->foreign("postId")
+            ->references("postId")
+            ->on("posts")
             ->onDelete("set null")
             ->onUpdate("cascade");
 
@@ -33,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('tag_posts');
     }
 };

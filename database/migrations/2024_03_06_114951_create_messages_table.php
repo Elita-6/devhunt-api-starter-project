@@ -16,7 +16,14 @@ return new class extends Migration
             $table->uuid("messageId")->default(Str::uuid())->primary();
             $table->string("messageContent")->nullable();
             $table->boolean("isBot")->nullable();
+            $table->uuid("discussionId")->nullable();
             $table->timestamps();
+
+            $table->foreign("discussionId")
+            ->references("discussionId")
+            ->on("discussions")
+            ->onDelete("set null")
+            ->onUpdate("cascade");
         });
     }
 

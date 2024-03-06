@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid("courseId")->default(Str::uuid())->primary();
             $table->string("courseName")->nullable();
             $table->dateTime("sendingDate")->useCurrent();
-            $table->string("coursUrl")->useCurrent();
+            $table->string("courseUrl")->useCurrent();
             $table->string("fileType")->nullable();
             $table->string("userId")->nullable();
             $table->timestamps();

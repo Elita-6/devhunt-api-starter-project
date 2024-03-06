@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('archives', function (Blueprint $table) {
             $table->uuid("archiveId")->primary();
+            $table->dateTime("archiveDate")->useCurrent();
             $table->timestamps();
         });
     }

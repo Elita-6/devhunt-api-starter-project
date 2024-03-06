@@ -3,43 +3,132 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'name',
+        'userName',
+        'firstName',
+        'lastName',
         'email',
-        'password',
+        'typeProvider',
+        'active',
+        'profileUrl',
+        'contact',
+    ];
+
+    protected $primaryKey = "userId";
+
+    protected $cast = [
+        "created_at" => "datetime:Y-m-d H:m:i",
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * Date format customized for serialization
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H-m-i');
+    }
 
     /**
-     * The attributes that should be cast.
+     * Get the profile associated with the User
      *
-     * @var array<string, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function profile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+
+    /**
+     * Get all of the itineraire for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function itineraire(): HasMany
+    {
+        return $this->hasMany(Itineraire::class);
+    }
+
+    /**
+     * Get all of the discussions for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function discussions(): HasMany
+    {
+        return $this->hasMany(Discussion::class);
+    }
+
+    /**
+     * Get all of the courses for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    /**
+     * Get all of the events for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
+     * The participants that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function participants(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'participers', 'userId', 'eventId');
+    }
+
+    /**
+     * Get all of the posts for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * The reagir that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function post_reagis(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'reactions', 'userId', 'postId');
+    }
+
+    /**
+     * Get all of the comments for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Commentaire::class);
+    }
 }

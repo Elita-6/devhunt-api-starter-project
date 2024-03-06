@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ParcourDomain;
+use App\Models\TagPost;
 use Illuminate\Http\Request;
 
-class ParcourDomainController extends Controller
+class TagPostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class ParcourDomainController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ParcourDomain $parcourDomain)
+    public function show(TagPost $tagPost)
     {
         //
     }
@@ -34,7 +34,7 @@ class ParcourDomainController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ParcourDomain $parcourDomain)
+    public function update(Request $request, TagPost $tagPost)
     {
         //
     }
@@ -42,7 +42,7 @@ class ParcourDomainController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ParcourDomain $parcourDomain)
+    public function destroy(TagPost $tagPost)
     {
         //
     }
