@@ -15,6 +15,7 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $fillable = [
+        "profileId",
         "description",
         "linkGithub",
         "linkLinkedin",
@@ -26,6 +27,7 @@ class UserProfile extends Model
     ];
 
     protected $primaryKey = "profileId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

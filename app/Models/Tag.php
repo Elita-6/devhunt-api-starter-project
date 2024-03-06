@@ -14,11 +14,13 @@ class Tag extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        "tagId",
         "tagDesign",
     ];
 
 
     protected $primaryKey = "tagId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

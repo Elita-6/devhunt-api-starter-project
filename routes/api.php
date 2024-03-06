@@ -9,6 +9,7 @@ use App\Http\Controllers\ParcourController;
 use App\Http\Controllers\ParcourDeboucherController;
 use App\Http\Controllers\PorteController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
 use App\Http\Controllers\TechProjectController;
 use App\Http\Controllers\FacebookController;
@@ -94,6 +95,10 @@ Route::apiResource("parcourDeboucher", ParcourDeboucherController::class)->excep
 Route::apiResource("project", ProjectController::class);
 
 Route::apiResource( "technology", TechnologyController::class);
+Route::get("techno/search/{skill}", [TechnologyController::class, "search"]);
+
+Route::apiResource("tag", TagController::class);
+Route::get("tag/search/{tag}", [TagController::class, "search"]);
 
 Route::get("/techProject/{projectId}", [TechProjectController::class,"index"]);
 Route::apiResource("techProject", ProjectController::class)->except("index");

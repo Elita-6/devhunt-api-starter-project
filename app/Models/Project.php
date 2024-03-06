@@ -14,6 +14,7 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
+        'projectId',
         'title',
         'projectDescription',
         'imageUrl',
@@ -23,6 +24,7 @@ class Project extends Model
     ];
 
     protected $primaryKey = "projectId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

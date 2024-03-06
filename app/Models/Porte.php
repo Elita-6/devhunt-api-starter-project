@@ -13,10 +13,12 @@ class Porte extends Model
 
     protected $fillable = [
         "porteId",
+        "porteId",
         "profileId",
     ];
 
     protected $primaryKey = "porteId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

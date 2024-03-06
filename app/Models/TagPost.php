@@ -13,4 +13,6 @@ class TagPost extends Model
         "tagId",
         "postId",
     ];
+
+
 }

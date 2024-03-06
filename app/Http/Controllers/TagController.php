@@ -39,6 +39,11 @@ class TagController extends Controller
         //
     }
 
+    public function search($tag){
+        $tags = Tag::where('tagDesign', 'like', '%'. $tag .'%')->get();
+        return $tags;
+    }
+
     /**
      * Update the specified resource in storage.
      */
