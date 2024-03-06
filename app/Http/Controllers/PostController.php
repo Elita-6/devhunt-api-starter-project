@@ -6,6 +6,10 @@ use App\Models\Post;
 use App\Models\TagPost;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 class PostController extends Controller
 {
     /**
@@ -76,6 +80,13 @@ class PostController extends Controller
                 "tags",
             ]);
 
+
+            // $payload = JWTAuth::parseToken()->getPayload();
+            // $userId = $payload['userid'];
+
+            $payload = JWTAuth::parseToken()->getPayload();
+            $userId = $payload['userid'];
+
             $post = Post::create([
                 "postTitle"=>$data["postTitle"],
                 "postDescription"=>$data["postDescription"],
@@ -93,6 +104,7 @@ class PostController extends Controller
         } catch (\Exception $th) {
             return response()->json(["errorMessage"=>$th->getMessage()], 500);
         }
+
     }
 
     /**
@@ -101,6 +113,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
+
+
     }
 
     /**
@@ -128,5 +142,8 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        $post->delete();
+        return response()->json(["message"=>"deleted"], 201);
+
     }
 }
