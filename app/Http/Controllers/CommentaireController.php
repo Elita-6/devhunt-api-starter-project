@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CommentaireController extends Controller
 {
@@ -22,6 +23,19 @@ class CommentaireController extends Controller
     public function store(Request $request)
     {
         //
+        $payload = JWTAuth::parseToken()->getPayload();
+        $userId = $payload['userid'];
+
+        $data = $request->only(["content", "postId"]);
+
+        $comment = Commentaire::create([
+            "content" => $data["content"],
+            "userId" => $userId,
+            "postId" => $data["postId"]
+        ]);
+
+        return response()->json($comment, 201);
+
     }
 
     /**
@@ -38,6 +52,11 @@ class CommentaireController extends Controller
     public function update(Request $request, Commentaire $commentaire)
     {
         //
+        $commentaire->content = $request->input('content');
+
+        $commentaire->save();
+
+        return response()->json($commentaire);
     }
 
     /**
