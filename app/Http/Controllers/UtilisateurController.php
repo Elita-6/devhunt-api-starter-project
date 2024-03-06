@@ -100,7 +100,7 @@ class UtilisateurController extends Controller
                                  'lastName' => $request->input('lastName'),
                                  'email' => $request->input('email'),
                                 'typeProvider' => $request->input('typeProvider'),
-                                     'profileUrl' => $request->input('profileUrl')
+                                 'profileUrl' => $request->input('profileUrl')
                           ]);
 
 //                 dd($loginuser->mail);

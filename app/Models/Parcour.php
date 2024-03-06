@@ -51,5 +51,4 @@ class Parcour extends Model
     {
         return $this->belongsToMany(Deboucher::class, 'parcour_debouchers', 'parcourId', 'deboucherId');
     }
-
 }

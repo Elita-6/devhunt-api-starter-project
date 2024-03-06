@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProfileTech;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,23 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $profile = UserProfile::create($request->only([
+                "description",
+                "linkGithub",
+                "linkLinkedin",
+                "linkPortfolio",
+                "isProf",
+                "userId",
+                "parcourId",
+                "porteId"
+            ]));
+
+
+            return response()->json($profile, 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()],);
+        }
     }
 
     /**
@@ -28,7 +45,48 @@ class UserProfileController extends Controller
      */
     public function show(UserProfile $userProfile)
     {
-        //
+        try {
+            $porte = null;
+            $technology = [];
+            $experience = [];
+
+            if ($userProfile->porteId != null){
+                $porte = $userProfile->porteId;
+            }
+            foreach ($userProfile->technologies as $tech) {
+                array_push($technology, $tech);
+            };
+            foreach ($userProfile->experiences as $expe) {
+                array_push($experience, $expe);
+            }
+
+            $data = [
+                "description"=>$userProfile->description,
+                "linkGithub"=>$userProfile->linkGithub,
+                "linkLinkedin"=>$userProfile->linkLinkedin,
+                "linkPortfolio"=>$userProfile->linkPortfolio,
+                "isProf"=>$userProfile->isProf,
+                "user"=>[
+                    "id"=>$userProfile->user_id,
+                    "userName"=>$userProfile->user->userName,
+                    "firstName"=>$userProfile->user->firstName,
+                    "lastName"=>$userProfile->user->lastName,
+                    "email"=>$userProfile->user->email,
+                    "profileUrl"=> $userProfile->user->profile,
+                    "contact"=> $userProfile->user->contact,
+
+                ],
+                "parcour"=>$userProfile->parcour->title,
+                "porte"=>$porte,
+                "technologies"=>$technology,
+                "experience"=> $experience,
+            ];
+
+            return response()->json($data);
+
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()],500);
+        }
     }
 
     /**
@@ -36,7 +94,24 @@ class UserProfileController extends Controller
      */
     public function update(Request $request, UserProfile $userProfile)
     {
-        //
+        try {
+            $data = $request->only([
+                "description",
+                "linkGithub",
+                "linkLinkedin",
+                "linkPortfolio",
+                "isProf",
+                "userId",
+                "parcourId",
+                "porteId"
+            ]);
+
+            $userProfile->update($data);
+
+            return response()->json(["profile"=>$userProfile],200);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()],500);
+        }
     }
 
     /**

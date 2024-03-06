@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->uuid("courseId")->default(Str::uuid())->primary();
             $table->string("courseName")->nullable();
+            $table->string("courseDescription")->nullable();
             $table->dateTime("sendingDate")->useCurrent();
             $table->string("courseUrl")->useCurrent();
             $table->string("fileType")->nullable();

@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid("categoryId")->default(Str::uuid())->primary();
+            $table->text("icon")->nullable();
             $table->string("categoryDesign")->nullable();
             $table->timestamps();
         });

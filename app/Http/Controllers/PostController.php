@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -15,8 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+
 //        dd(Auth::user());
+
         return response()->json(Post::all());
     }
 
@@ -31,10 +33,8 @@ class PostController extends Controller
 
         $data = $request->only(["postTitle", "postDescription"]);
 
-        $postId = Str::random(10) . time();
 
         $post = Post::create([
-            "postId" => $postId,
             "posttitle" => $data['postTitle'],
             "postDescription" => $data['postDescription'],
             "userId" => $userId,
@@ -51,6 +51,7 @@ class PostController extends Controller
     {
         //
 
+
     }
 
     /**
@@ -65,7 +66,6 @@ class PostController extends Controller
         $data = $request->only(["postTitle", "postDescription"]);
         $post->postTitle = $data['postTitle'];
         $post->postDescription = $data['postDescription'];
-
         $post->save();
 
         return response()->json($post, 201);
@@ -79,5 +79,6 @@ class PostController extends Controller
         //
         $post->delete();
         return response()->json(["message"=>"deleted"], 201);
+
     }
 }

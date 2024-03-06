@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->uuid("projectId")->default(Str::uuid())->primary();
             $table->string("title")->nullable();
+            $table->string("imageUrl")->nullable();
             $table->string("projectDescription")->nullable();
             $table->dateTime("startDate")->nullable();
             $table->dateTime("endDate")->nullable();

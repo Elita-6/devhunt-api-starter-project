@@ -15,6 +15,9 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->uuid("profileId")->default(Str::uuid())->primary();
             $table->string("userId")->nullable();
+            $table->string("linkGithub")->nullable();
+            $table->string("linkLinkedin")->nullable();
+            $table->string("linkPortfolio")->nullable();
             $table->string("description")->nullable();
             $table->boolean('isProf')->default(false);
             $table->timestamps();

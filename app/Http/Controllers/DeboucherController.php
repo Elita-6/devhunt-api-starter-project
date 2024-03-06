@@ -10,9 +10,9 @@ class DeboucherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, int $parcour)
     {
-        //
+        return response()->json(Deboucher::all());
     }
 
     /**
@@ -20,7 +20,15 @@ class DeboucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $deboucher = Deboucher::create($request->only([
+                "deboucherName",
+            ]));
+
+            return response()->json($deboucher, 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -36,7 +44,13 @@ class DeboucherController extends Controller
      */
     public function update(Request $request, Deboucher $deboucher)
     {
-        //
+        try {
+            $deboucher->update($request->only(["deboucherName"]));
+
+            return response()->json($deboucher, 200);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -44,6 +58,11 @@ class DeboucherController extends Controller
      */
     public function destroy(Deboucher $deboucher)
     {
-        //
+        try {
+            $deboucher->delete();
+            return response()->json([], 204);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 }

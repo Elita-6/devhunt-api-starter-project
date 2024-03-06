@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ApartController;
+
+use App\Http\Controllers\AssistantGenerator;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UtilisateurController;
@@ -30,6 +32,7 @@ use App\Http\Controllers\ChatController;
 
 
 Route::get("/exemple", [ApartController::class, "exemple"]);
+
 Route::apiResource("user", UtilisateurController::class)->except(['logout']);
 Route::post('/chat/generate-response', [ChatController::class, 'generateResponse']);
 Route::post('/facebook/generate-response', [FacebookController::class, 'publishPost']);
@@ -56,3 +59,7 @@ Route::post('/facebook/generate-response', [FacebookController::class, 'publishP
 //Route::apiResource('post', PostController::class);
 //Route::apiResource('tag', TagController::class);
 
+Route::apiResource("user", UtilisateurController::class);
+
+
+Route::post("/openai", [AssistantGenerator::class,"index"]);

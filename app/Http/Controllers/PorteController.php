@@ -12,7 +12,7 @@ class PorteController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Porte::all());
     }
 
     /**
@@ -20,7 +20,18 @@ class PorteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only([
+            "porteId",
+            "profileId"
+        ]);
+
+        try {
+            Porte::create($data);
+
+            return response()->json(["created"=>true], 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()]);
+        }
     }
 
     /**
@@ -44,6 +55,7 @@ class PorteController extends Controller
      */
     public function destroy(Porte $porte)
     {
-        //
+        $porte->delete();
+        return response()->json(["deleted"=>true],204);
     }
 }
