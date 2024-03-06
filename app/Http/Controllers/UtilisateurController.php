@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Utilisateur;
+use App\Models\User as Utilisateur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -48,7 +48,7 @@ class UtilisateurController extends Controller
                $loginuser =  Utilisateur::firstOrCreate(
                    ['email' => $request->input('email')],
                    [
-                   'id' => $userid,
+                   'userId' => $userid,
                    'username' => $request->input('username'),
                    'firstName' => $request->input('firstName'),
                    'lastName' => $request->input('lastName'),
@@ -94,13 +94,13 @@ class UtilisateurController extends Controller
                $loginuser =  Utilisateur::firstOrCreate(
                                  ['email' => $request->input('email')],
                                  [
-                                 'id' => $userid,
+                                 'userId' => $userid,
                                  'username' => $request->input('username'),
                                  'firstName' => $request->input('firstName'),
                                  'lastName' => $request->input('lastName'),
                                  'email' => $request->input('email'),
                                 'typeProvider' => $request->input('typeProvider'),
-                                     'profileUrl' => $request->input('profileUrl')
+                                 'profileUrl' => $request->input('profileUrl')
                           ]);
 
                //  dd($loginuser->mail);

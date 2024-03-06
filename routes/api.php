@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApartController;
+use App\Http\Controllers\AssistantGenerator;
 use App\Http\Controllers\UtilisateurController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get("/exemple", [ApartController::class, "exemple"]);
-Route::apiResource("utilisateur", UtilisateurController::class);
+Route::apiResource("user", UtilisateurController::class);
+
+
+Route::post("/openai", [AssistantGenerator::class,"index"]);
