@@ -101,7 +101,6 @@ class PostController extends Controller
         } catch (\Exception $th) {
             return response()->json(["errorMessage"=>$th->getMessage()], 500);
         }
-
     }
 
     /**

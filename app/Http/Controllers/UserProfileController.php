@@ -57,19 +57,25 @@ class UserProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserProfile $userProfile)
+    public function show(int $userId)
     {
         try {
             $porte = null;
             $technology = [];
             $experience = [];
 
+            $userProfile = UserProfile::where("userId", $userId)->first();
+
             if ($userProfile->porteId != null){
                 $porte = $userProfile->porteId;
             }
-            foreach ($userProfile->technologies as $tech) {
-                array_push($technology, $tech);
-            };
+
+            if($userProfile->technologies != null){
+                foreach ($userProfile->technologies as $tech) {
+                    array_push($technology, $tech);
+                };
+            }
+
             foreach ($userProfile->experiences as $expe) {
                 array_push($experience, $expe);
             }
@@ -99,11 +105,14 @@ class UserProfileController extends Controller
             return response()->json($data);
 
         } catch (\Exception $th) {
-            return response()->json(["errorMessage"=>$th->getMessage()],500);
+            return response()->json([
+                "errorMessage"=>$th->getMessage(),
+                "errorLine" => $th->getLine()
+            ],500);
         }
     }
 
-    /**
+    /**,
      * Update the specified resource in storage.
      */
     public function update(Request $request, UserProfile $userProfile)

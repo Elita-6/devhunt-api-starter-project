@@ -13,13 +13,16 @@ use App\Http\Controllers\TechnologyController;
 use App\Http\Controllers\TechProjectController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UtilisateurController;
 use App\Models\Deboucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReactionController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UuidGeneratorControllor;
+use App\Models\UserProfile;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,35 +86,44 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 // API GENERATOR
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
 
-Route::apiResource("domain", DomainController::class);
+Route::middleware(['auth:sanctum'])->group(function () {
 
-Route::get("/experience/{profileId}", [ExperienceController::class,"index"]);
-Route::apiResource("experience", ExperienceController::class)->except(["index"]);
+    Route::apiResource("domain", DomainController::class);
 
-Route::apiResource("porte", PorteController::class);
+    Route::get("/experience/{profileId}", [ExperienceController::class,"index"]);
+    Route::apiResource("experience", ExperienceController::class)->except(["index"]);
 
-Route::apiResource("parcour", ParcourController::class);
+    Route::apiResource("porte", PorteController::class);
 
-Route::apiResource("deboucher", Deboucher::class);
+    Route::apiResource("parcour", ParcourController::class);
 
-Route::get("/deboucher/{parcourId}", [ParcourDeboucherController::class,"index"]);
-Route::apiResource("parcourDeboucher", ParcourDeboucherController::class)->except("index");
+    Route::apiResource("deboucher", Deboucher::class);
 
-Route::apiResource("project", ProjectController::class);
+    Route::get("/deboucher/{parcourId}", [ParcourDeboucherController::class,"index"]);
+    Route::apiResource("parcourDeboucher", ParcourDeboucherController::class)->except("index");
 
-Route::apiResource( "technology", TechnologyController::class);
+    Route::apiResource("project", ProjectController::class);
 
-Route::get("/techProject/{projectId}", [TechProjectController::class,"index"]);
-Route::apiResource("techProject", ProjectController::class)->except("index");
+    Route::apiResource( "technology", TechnologyController::class);
 
-route::apiResource("userProfile", ProjectController::class);
+    Route::get("/techProject/{projectId}", [TechProjectController::class,"index"]);
+    Route::apiResource("techProject", ProjectController::class)->except("index");
 
-route::get("/tag/post/{postId}", [ExperienceController::class,"getTagByPost"]);
-route::get("/tag/prompt/{prompt}", [ExperienceController::class,"getTagByPrompt"]);
-route::apiResource("tag", ProjectController::class)->except("index");
 
-route::apiResource("post", PostController::class);
 
-route::get("/reaction/{postId}", [ExperienceController::class,"index"]);
-route::apiResource("reaction", ReactionController::class)->except("index");
+    route::apiResource("post", PostController::class);
 
+    route::get("/reaction/{postId}", [ReactionController::class,"index"]);
+    route::apiResource("reaction", ReactionController::class)->except("index");
+
+
+    route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
+    route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
+    route::apiResource("tag", ProjectController::class)->except("index");
+});
+
+route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
+route::apiResource("userProfile", UserProfileController::class)->except("show");
+
+
+http://192.168.62.197:8000/api/tag/prompt/

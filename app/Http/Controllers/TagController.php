@@ -15,14 +15,16 @@ class TagController extends Controller
         return Tag::all();
     }
 
-    public function getTagByPost(Request $request, int $postId)
+    public function getTagByPost( int $postId)
     {
         return response()->json(Tag::where($postId)->get());
     }
 
-    public function getTagByPrompt(Request $request, string $prompt)
+    public function getTagByPrompt( string $prompt)
     {
-        return response()->json(Tag::where("tagDesign", "like", "%".$prompt."%")->get());
+        // $payload = JWTAuth::parseToken()->getPayload();
+        // $userId = $payload['userid'];
+        return response()->json(Tag::where("tagDesign", "ilike", "%".$prompt."%")->get());
     }
 
     /**
