@@ -123,9 +123,6 @@ Route::apiResource('message', MessageController::class);
 
     Route::post("bolidaai", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
 
-    route::get("/tag/post/{postId}", [ExperienceController::class,"getTagByPost"]);
-    route::get("/tag/prompt/{prompt}", [ExperienceController::class,"getTagByPrompt"]);
-    route::apiResource("tag", ProjectController::class)->except("index");
 
 
     route::apiResource("post", PostController::class);
@@ -134,13 +131,9 @@ Route::apiResource('message', MessageController::class);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
 
-    route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
-    route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
-    route::apiResource("tag", ProjectController::class)->except("index");
 });
 
 route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
 route::apiResource("userProfile", UserProfileController::class)->except("show");
 
 
-// http://192.168.62.197:8000/api/tag/prompt/
