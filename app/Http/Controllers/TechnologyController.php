@@ -43,6 +43,11 @@ class TechnologyController extends Controller
         //
     }
 
+    public function search($skill){
+        $skills = Technology::where('technologyDesignation', 'like', '%'. $skill .'%')->get();
+        return $skills;
+    }
+
     /**
      * Update the specified resource in storage.
      */

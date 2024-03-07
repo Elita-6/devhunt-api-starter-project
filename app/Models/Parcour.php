@@ -13,12 +13,14 @@ class Parcour extends Model
     use HasFactory;
 
     protected $fillable = [
+        "parcourId",
         "title",
         "parcourDesign",
         "parcourDescritpion"
     ];
 
     protected $primaryKey = "parcourId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

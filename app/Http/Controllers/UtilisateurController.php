@@ -49,7 +49,7 @@ class UtilisateurController extends Controller
                    ['email' => $request->input('email')],
                    [
                    'userId' => $userid,
-                   'username' => $request->input('username'),
+                   'userName' => $request->input('username'),
                    'firstName' => $request->input('firstName'),
                    'lastName' => $request->input('lastName'),
                    'email' => $request->input('email'),
@@ -75,6 +75,7 @@ class UtilisateurController extends Controller
                        return response([
                            'message' => "Succes",
                            'token' => $token,
+                           'userid' => $loginuser->userId
                        ], 200)->withCookie($cookie);
                    }
                    else{
@@ -95,7 +96,7 @@ class UtilisateurController extends Controller
                                  ['email' => $request->input('email')],
                                  [
                                  'userId' => $userid,
-                                 'username' => $request->input('username'),
+                                 'userName' => $request->input('username'),
                                  'firstName' => $request->input('firstName'),
                                  'lastName' => $request->input('lastName'),
                                  'email' => $request->input('email'),
@@ -120,7 +121,8 @@ class UtilisateurController extends Controller
                    // dd(Auth::user());
                    return response([
                        'message' => "Succes",
-                       'token' => $token
+                       'token' => $token,
+                       'userid' => $loginuser->userId
                    ], 200)->withCookie($cookie);
                }
                else{

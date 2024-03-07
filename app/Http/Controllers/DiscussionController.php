@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Discussion;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\GenUuid;
 
 class DiscussionController extends Controller
 {
@@ -13,6 +15,8 @@ class DiscussionController extends Controller
     public function index()
     {
         //
+
+
     }
 
     /**
@@ -21,7 +25,24 @@ class DiscussionController extends Controller
     public function store(Request $request)
     {
         //
+        $payload = JWTAuth::parseToken()->getPayload();
+        $userId = $payload['userid'];
+
+        $data = $request->only(["discussionTitle"]);
+        $discussionId = new GenUuid();
+        $discussionId = $discussionId->genUuid();
+
+            $discussion = Discussion::firstOrCreate(["userId", $userId],
+                [
+                    "discussionTitle" => $data['discussionTitle'],
+                    "userId" => $userId
+                ]
+            );
+
+        return response()->json($discussion, 200);
     }
+
+
 
     /**
      * Display the specified resource.
@@ -29,6 +50,7 @@ class DiscussionController extends Controller
     public function show(Discussion $discussion)
     {
         //
+
     }
 
     /**

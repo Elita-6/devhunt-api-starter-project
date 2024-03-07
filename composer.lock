@@ -4,9 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-
-    "content-hash": "163d91c7f1751d788199f616f369931b",
+    "content-hash": "ad20f11c1551b32bf4cb68b2ef604dc1",
     "packages": [
+        {
+            "name": "adityadees/laravel-google-bard",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adityadees/laravel-google-bard.git",
+                "reference": "593ef0721f14b026887e05044676a012e5f4f220"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adityadees/laravel-google-bard/zipball/593ef0721f14b026887e05044676a012e5f4f220",
+                "reference": "593ef0721f14b026887e05044676a012e5f4f220",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^7|^8|^9|^10",
+                "illuminate/support": "^7|^8|^9|^10",
+                "php": "^7|^8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AdityaDees\\LaravelBard\\LaravelBardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AdityaDees\\LaravelBard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aditya Dharmawan Saputra",
+                    "email": "adityadees@gmail.com"
+                }
+            ],
+            "description": "A Laravel Package for Google Bard AI Chatbot",
+            "support": {
+                "issues": "https://github.com/adityadees/laravel-google-bard/issues",
+                "source": "https://github.com/adityadees/laravel-google-bard/tree/v1.1.1"
+            },
+            "time": "2023-06-11T14:06:07+00:00"
+        },
         {
             "name": "backpack/basset",
             "version": "1.2.4",

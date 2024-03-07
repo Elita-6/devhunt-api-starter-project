@@ -16,6 +16,7 @@ class Post extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        "postId",
         "postTitle",
         "postDescription",
         "userId",
@@ -23,6 +24,7 @@ class Post extends Model
     ];
 
     protected $primaryKey = "postId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

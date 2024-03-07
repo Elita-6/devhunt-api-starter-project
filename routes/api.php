@@ -9,6 +9,7 @@ use App\Http\Controllers\ParcourController;
 use App\Http\Controllers\ParcourDeboucherController;
 use App\Http\Controllers\PorteController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
 use App\Http\Controllers\TechProjectController;
 use App\Http\Controllers\FacebookController;
@@ -20,9 +21,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReactionController;
-use App\Http\Controllers\TagController;
+// use App\Http\Controllers\TagController;
 use App\Http\Controllers\UuidGeneratorControllor;
 use App\Models\UserProfile;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\DiscussionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +90,9 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+Route::apiResource('discussion', DiscussionController::class);
+Route::apiResource('message', MessageController::class);
+
 
     Route::apiResource("domain", DomainController::class);
 
@@ -103,12 +109,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource("parcourDeboucher", ParcourDeboucherController::class)->except("index");
 
     Route::apiResource("project", ProjectController::class);
+    Route::apiResource( "technology", TechnologyController::class);
+    Route::get("techno/search/{skill}", [TechnologyController::class, "search"]);
+
+    Route::apiResource("tag", TagController::class);
+    Route::get("tag/search/{tag}", [TagController::class, "search"]);
 
     Route::apiResource( "technology", TechnologyController::class);
 
     Route::get("/techProject/{projectId}", [TechProjectController::class,"index"]);
     Route::apiResource("techProject", ProjectController::class)->except("index");
 
+
+    Route::post("bolidaai", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
+
+    route::get("/tag/post/{postId}", [ExperienceController::class,"getTagByPost"]);
+    route::get("/tag/prompt/{prompt}", [ExperienceController::class,"getTagByPrompt"]);
+    route::apiResource("tag", ProjectController::class)->except("index");
 
 
     route::apiResource("post", PostController::class);
@@ -126,4 +143,4 @@ route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
 route::apiResource("userProfile", UserProfileController::class)->except("show");
 
 
-http://192.168.62.197:8000/api/tag/prompt/
+// http://192.168.62.197:8000/api/tag/prompt/
