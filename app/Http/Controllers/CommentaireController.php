@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CommentaireController extends Controller
@@ -23,8 +24,7 @@ class CommentaireController extends Controller
     public function store(Request $request)
     {
         //
-        $payload = JWTAuth::parseToken()->getPayload();
-        $userId = $payload['userid'];
+        $userId = Auth::user()->userId;
         $gen = new GenUuid();
         $data = $request->only(["content", "postId"]);
 

@@ -89,7 +89,7 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 // API GENERATOR
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['verify.jwt.userid'])->group(function () {
 Route::apiResource('discussion', DiscussionController::class);
 Route::apiResource('message', MessageController::class);
 
