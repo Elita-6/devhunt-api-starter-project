@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->uuid("postId")->default(Str::uuid())->primary();
+            // $table->uuid("postId")->default(Str::uuid())->primary();
+            $table->uuid("postId")->primary();
             $table->string("postTitle")->nullable();
             $table->string("postDescription")->nullable();
             $table->string("userId")->nullable();

@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tags', function (Blueprint $table) {
-            $table->uuid("tagId")->default(Str::uuid())->primary();
+            // $table->uuid("tagId")->default(Str::uuid())->primary();
+            $table->uuid("tagId")->primary();
             $table->string("tagDesign")->nullable();
             $table->timestamps();
         });

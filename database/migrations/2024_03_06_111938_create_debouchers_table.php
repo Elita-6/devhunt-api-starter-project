@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('debouchers', function (Blueprint $table) {
-            $table->uuid("deboucherId")->default(Str::uuid())->primary();
+            // $table->uuid("deboucherId")->default(Str::uuid())->primary();
+            $table->uuid("deboucherId")->primary();
             $table->string("deboucherName")->nullable();
             $table->timestamps();
         });

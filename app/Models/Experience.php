@@ -12,6 +12,7 @@ class Experience extends Model
     use HasFactory;
 
     protected $fillable = [
+        "experienceId",
         "experiencePost",
         "experienceDescription",
         "experienceLocal",

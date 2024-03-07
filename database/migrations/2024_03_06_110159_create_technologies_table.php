@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('technologies', function (Blueprint $table) {
-            $table->uuid("technologyId")->default(Str::uuid())->primary();
+            // $table->uuid("technologyId")->default(Str::uuid())->primary();
+            $table->uuid("technologyId")->primary();
             $table->string("technologyDesignation");
             $table->timestamps();
         });

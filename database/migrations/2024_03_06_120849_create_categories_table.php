@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->uuid("categoryId")->default(Str::uuid())->primary();
+            // $table->uuid("categoryId")->default(Str::uuid())->primary();
+            $table->uuid("categoryId")->primary();
             $table->text("icon")->nullable();
             $table->string("categoryDesign")->nullable();
             $table->timestamps();

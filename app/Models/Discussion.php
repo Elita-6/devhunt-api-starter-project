@@ -20,6 +20,8 @@ class Discussion extends Model
 
     protected $primaryKey = "discussionId";
 
+    protected $keyType = "string";
+
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",
     ];

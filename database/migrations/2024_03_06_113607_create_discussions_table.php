@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discussions', function (Blueprint $table) {
-            $table->uuid("discussionId")->default(Str::uuid())->primary();
+            // $table->uuid("discussionId")->default(Str::uuid())->primary();
+            $table->uuid("discussionId")->primary();
             $table->string("discussionTitle")->nullable();
             $table->string("userId")->nullable();
             $table->timestamps();

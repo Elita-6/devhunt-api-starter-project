@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('commentaires', function (Blueprint $table) {
-            $table->uuid("commentId")->default(Str::uuid())->primary();
+            // $table->uuid("commentId")->default(Str::uuid())->primary();
+            $table->uuid("commentId")->primary();
             $table->string("content")->nullable();
             $table->string("userId")->nullable();
             $table->uuid("postId")->nullable();

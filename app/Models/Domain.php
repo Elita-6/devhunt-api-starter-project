@@ -12,11 +12,14 @@ class Domain extends Model
     use HasFactory;
 
     protected $fillable = [
+        "domainId",
         "domainName"
     ];
 
 
     protected $primaryKey = "domainId";
+
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

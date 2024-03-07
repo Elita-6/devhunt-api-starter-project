@@ -25,10 +25,11 @@ class CommentaireController extends Controller
         //
         $payload = JWTAuth::parseToken()->getPayload();
         $userId = $payload['userid'];
-
+        $gen = new GenUuid();
         $data = $request->only(["content", "postId"]);
 
         $comment = Commentaire::create([
+            "commentId" => $gen->genUuid(),
             "content" => $data["content"],
             "userId" => $userId,
             "postId" => $data["postId"]

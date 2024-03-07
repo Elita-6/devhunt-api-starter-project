@@ -12,10 +12,13 @@ class Deboucher extends Model
     use HasFactory;
 
     protected $fillable = [
+        "deboucherId",
         "deboucherName",
     ];
 
     protected $primaryKey = "deboucherId";
+
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

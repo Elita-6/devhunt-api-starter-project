@@ -13,11 +13,13 @@ class Archive extends Model
     use HasFactory;
 
     protected $fillable = [
+        "activeId",
         "archiveDate",
     ];
 
 
     protected $primaryKey = "archiveId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

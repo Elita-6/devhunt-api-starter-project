@@ -22,27 +22,15 @@ class ExperienceController extends Controller
      */
     public function store(Request $request)
     {
-
-        $gen = new GenUuid();
         try {
-            $data = $request->only([
+            $experience = Experience::create($request->only([
                 "experiencePost",
                 "experienceDescription",
                 "experienceLocal",
                 "dateStart",
                 "dateEnd",
                 "profileId"
-            ]);
-
-            $experience = Experience::create([
-                "experienceId" => $gen->genUuid(),
-                "experiencePost" => $data["experiencePost"],
-                "experienceDescription" => $data["experienceDescription"],
-                "experienceLocal" => $data["experienceLocal"],
-                "dateStart" => $data["dateStart"],
-                "dateEnd" => $data["dateEnd"],
-                "profileId" => $data["profileId"],
-            ]);
+            ]));
 
             return response()->json($experience, 201);
 

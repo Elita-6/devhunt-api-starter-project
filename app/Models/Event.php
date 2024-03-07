@@ -14,6 +14,7 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
+        "eventId",
         "eventTitle",
         "eventDescription",
         "dateEvent",
@@ -21,6 +22,7 @@ class Event extends Model
     ];
 
     protected $primaryKey = "eventId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",
