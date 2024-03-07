@@ -135,7 +135,6 @@ Route::apiResource('message', MessageController::class);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
 
-<<<<<<< HEAD
     route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
     route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     route::apiResource("tag", ProjectController::class)->except("index");
@@ -144,8 +143,6 @@ Route::apiResource('message', MessageController::class);
 
     Route::apiResource("category", CategoryController::class);
 
-=======
->>>>>>> 7195b618712b5b10bc59e2f73043b9e76f31297a
 });
 
 
