@@ -20,7 +20,12 @@ class ProfileTechController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ProfileTech::create($request->only([
+            "profileId",
+            "technologyId"
+        ]));
+
+        return response()->json([], 201);
     }
 
     /**
