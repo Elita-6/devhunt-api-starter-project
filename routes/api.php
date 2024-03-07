@@ -134,7 +134,7 @@ Route::apiResource('message', MessageController::class);
     route::get("/reaction/{postId}", [ReactionController::class,"index"]);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
-
+    Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class);
     // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     // route::apiResource("tag", ProjectController::class)->except("index");
 

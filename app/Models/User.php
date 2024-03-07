@@ -132,7 +132,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function comments(): HasMany
     {
-        return $this->hasMany(Commentaire::class);
+        return $this->hasMany(Commentaire::class, 'userId');
     }
 
     public function getJWTIdentifier()

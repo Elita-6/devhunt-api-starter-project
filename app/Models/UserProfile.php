@@ -98,7 +98,7 @@ class UserProfile extends Model
      */
     public function experiences(): HasMany
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Experience::class, "profileId");
     }
 
     /**
