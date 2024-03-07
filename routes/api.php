@@ -124,7 +124,7 @@ Route::apiResource('message', MessageController::class);
 
 
 
-    Route::post("bolidaai", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
+    Route::post("bolidaai", [ChatController::class, 'generateResponse']);
 
 
 
