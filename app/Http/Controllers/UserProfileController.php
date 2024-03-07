@@ -22,7 +22,9 @@ class UserProfileController extends Controller
     public function store(Request $request)
     {
         try {
-            $profile = UserProfile::create($request->only([
+
+            $gen = new GenUuid();
+            $data = $request->only([
                 "description",
                 "linkGithub",
                 "linkLinkedin",
@@ -31,7 +33,19 @@ class UserProfileController extends Controller
                 "userId",
                 "parcourId",
                 "porteId"
-            ]));
+            ]);
+
+            $profile = UserProfile::create([
+                "profileId" => $gen->genUuid(),
+                "description" => $data["description"],
+                "linkGithub" => $data["linkGithub"],
+                "linkLinkedin" => $data["linkLinkedin"],
+                "linkPortfolio" => $data["linkPortfolio"],
+                "isProf" => $data["isProf"],
+                "userId" => $data["userId"],
+                "parcourId" => $data["parcourId"],
+                "porteId" => $data["porteId"],
+            ]);
 
 
             return response()->json($profile, 201);

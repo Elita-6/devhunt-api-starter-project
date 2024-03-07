@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('experiences', function (Blueprint $table) {
-            $table->uuid("experienceId")->default(Str::uuid())->primary();
+            // $table->uuid("experienceId")->default(Str::uuid())->primary();
+            $table->uuid("experienceId")->primary();
             $table->string("experiencePost");
             $table->string("experienceLocal")->nullable();
             $table->string("experienceDescription");

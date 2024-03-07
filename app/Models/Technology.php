@@ -11,11 +11,14 @@ class Technology extends Model
     use HasFactory;
 
     protected $fillable = [
+        "technologyId",
         "technologyDesignation"
     ];
 
 
     protected $primaryKey = "technologyId";
+
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

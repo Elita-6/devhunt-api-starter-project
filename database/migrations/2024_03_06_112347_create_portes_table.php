@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('portes', function (Blueprint $table) {
-            $table->string("porteId")->default(Str::uuid())->primary();
+            // $table->string("porteId")->default(Str::uuid())->primary();
+            $table->string("porteId")->primary();
             $table->timestamps();
         });
     }

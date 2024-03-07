@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Domain;
+use App\Http\Controllers\GenUuid;
 use Illuminate\Http\Request;
 
 class DomainController extends Controller
@@ -20,9 +21,13 @@ class DomainController extends Controller
      */
     public function store(Request $request)
     {
+        $gen = new GenUuid();
         $data = $request->only(["domainName"]);
         try {
-            $domain = Domain::create($data);
+            $domain = Domain::create([
+                "domainId"=>$gen->genUuid(),
+                "domainName"=>$data["domainName"]
+            ]);
 
             return response()->json(["created" => true], 201);
         } catch (\Exception $th) {

@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_profiles', function (Blueprint $table) {
-            $table->uuid("profileId")->default(Str::uuid())->primary();
+            // $table->uuid("profileId")->default(Str::uuid())->primary();
+            $table->uuid("profileId")->primary();
             $table->string("userId")->nullable();
             $table->string("linkGithub")->nullable();
             $table->string("linkLinkedin")->nullable();

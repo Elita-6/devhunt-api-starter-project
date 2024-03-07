@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('parcours', function (Blueprint $table) {
-            $table->uuid("parcourId")->default(Str::uuid())->primary();
+            // $table->uuid("parcourId")->default(Str::uuid())->primary();
+            $table->uuid("parcourId")->primary();
             $table->string("parcourDesign")->nullable();
             $table->string("parcourDescription")->nullable();
             $table->timestamps();

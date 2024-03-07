@@ -12,12 +12,14 @@ class Itineraire extends Model
     use HasFactory;
 
     protected $fillable = [
+        "itineraireId",
         "design",
         "userId",
     ];
 
     protected $primaryKey = "itineraireId";
 
+    protected $keyType = "string";
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",
     ];

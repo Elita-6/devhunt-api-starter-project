@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('itineraires', function (Blueprint $table) {
-            $table->string("itineraireId")->default(Str::uuid())->primary();
+            // $table->string("itineraireId")->default(Str::uuid())->primary();
+            $table->string("itineraireId")->primary();
             $table->string("design")->nullable();
             $table->uuid("profileId")->nullable();
             $table->timestamps();

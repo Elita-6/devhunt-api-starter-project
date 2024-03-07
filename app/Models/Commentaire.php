@@ -19,6 +19,7 @@ class Commentaire extends Model
     ];
 
     protected $primaryKey = "commentId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

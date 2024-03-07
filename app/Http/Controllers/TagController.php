@@ -15,15 +15,31 @@ class TagController extends Controller
         return Tag::all();
     }
 
+    public function getTagByPost(Request $request, int $postId)
+    {
+        return response()->json(Tag::where($postId)->get());
+    }
+
+    public function getTagByPrompt(Request $request, string $prompt)
+    {
+        return response()->json(Tag::where("tagDesign", "like", "%".$prompt."%")->get());
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         try {
-            $tag = Tag::create($request->only([
+            $data = $request->only([
                 "tagDesign",
-            ]));
+            ]);
+            $gen = new GenUuid();
+
+            $tag = Tag::create([
+                "tagId" => $gen->genUuid(),
+                "tagDesign"=> $data["tagDesign"],
+            ]);
 
             return response()->json($tag, 201);
         } catch (\Exception $th) {

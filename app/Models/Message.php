@@ -12,6 +12,7 @@ class Message extends Model
     use HasFactory;
 
     protected $fillable = [
+        "messageId",
         "messageContent",
         "isBot",
         "discussionId",
@@ -19,6 +20,7 @@ class Message extends Model
 
 
     protected $primaryKey = "messageId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

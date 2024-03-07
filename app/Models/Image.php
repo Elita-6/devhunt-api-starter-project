@@ -12,12 +12,14 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = [
+        "imageId",
         "imageUrl",
         "postId",
         "eventId",
     ];
 
     protected $primaryKey = "imageId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

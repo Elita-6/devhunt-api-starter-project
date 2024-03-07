@@ -19,7 +19,6 @@ class PostController extends Controller
     {
 
         try {
-            //code...
             $posts = Post::orderBy("created_at","desc")->get();
 
             $data = [];
@@ -38,6 +37,7 @@ class PostController extends Controller
                 foreach ($post->comments as $comment) {
                     array_push($comments, [
                         "content" => $comment->content,
+                        "dateComment" => $comment->created_at,
                         "user" => [
                             "userId"=> $comment->user->userId,
                             "userName" => $comment->user->userName,
@@ -76,21 +76,18 @@ class PostController extends Controller
             $data = $request->only([
                 "postTitle",
                 "postDescription",
-                "userId",
+                // "userId",
                 "tags",
             ]);
-
-
-            // $payload = JWTAuth::parseToken()->getPayload();
-            // $userId = $payload['userid'];
-
+            $gen = new GenUuid();
             $payload = JWTAuth::parseToken()->getPayload();
             $userId = $payload['userid'];
 
             $post = Post::create([
+                "postId" => $gen->genUuid(),
                 "postTitle"=>$data["postTitle"],
                 "postDescription"=>$data["postDescription"],
-                "userId" => $data["userId"],
+                "userId" => $userId,
             ]);
 
             foreach ($data["tags"] as $tag) {
@@ -112,8 +109,47 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
 
+        try {
+            $data = [];
+            $tags = [];
+            $comments = [];
+
+            // get tags
+            foreach ($post->tags as $tag) {
+                array_push($tags, [$tag->tagDesign]);
+            }
+
+            // Get comments
+            foreach ($post->comments as $comment) {
+                array_push($comments, [
+                    "content" => $comment->content,
+                    "user" => [
+                        "userId"=> $comment->user->userId,
+                        "userName" => $comment->user->userName,
+                        "profileUrl"=> $comment->user->profileUrl,
+                    ],
+                ]);
+            }
+
+            // Set all data together
+            array_push($data, [
+                "postId" => $post->postId,
+                "postDescription" => $post->postDescription,
+                "dateCreation" => $post->created_at,
+                "user" => [
+                    "userId" => $post->user->userId,
+                    "userName" => $post->user->userName,
+                    "profileUrl" => $post->user->profileUrl,
+                ],
+                "tags"=> $tags,
+                "comments" => $comments,
+            ]);
+
+            return response()->json($data, 200);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=>$th->getMessage()],500);
+        }
 
     }
 
@@ -141,7 +177,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
         $post->delete();
         return response()->json(["message"=>"deleted"], 201);
 

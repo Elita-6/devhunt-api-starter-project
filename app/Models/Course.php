@@ -12,6 +12,7 @@ class Course extends Model
     use HasFactory;
 
     protected $fillable = [
+        "courseId",
         "courseName",
         "courseDescription",
         "sendinDate",
@@ -23,6 +24,7 @@ class Course extends Model
 
 
     protected $primaryKey = "courseId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

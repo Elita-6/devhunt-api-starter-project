@@ -12,11 +12,13 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
+        "categoryId",
         "categoryDesign",
         "icon",
     ];
 
     protected $primaryKey = "categoryId";
+    protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",

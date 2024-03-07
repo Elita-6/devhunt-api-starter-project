@@ -22,11 +22,20 @@ class ParcourController extends Controller
     public function store(Request $request)
     {
         try {
-            $parcour = Parcour::create($request->only([
+            $gen = new GenUuid();
+
+            $data = $request->only([
                 "title",
                 "parcourDesign",
                 "parcourDescription"
-            ]));
+            ]);
+
+            $parcour = Parcour::create([
+                "parcourId" => $gen->genUuid(),
+                "title" => $data["title"],
+                "parcourDesign" => $data["parcourDesign"],
+                "parcourDescription" => $data["parcourDescription"],
+            ]);
 
             return response()->json($parcour, 201);
 

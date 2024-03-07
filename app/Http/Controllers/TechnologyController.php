@@ -21,9 +21,13 @@ class TechnologyController extends Controller
     public function store(Request $request)
     {
         $data = $request->only(["technologyDesignation"]);
-
         try {
-            Technology::create($data);
+            $gen = new GenUuid();
+            // dd($gen->genUuid()->toString());
+            Technology::create([
+                "technologyId"=>$gen->genUuid(),
+                "technologyDesignation"=>$data["technologyDesignation"],
+            ]);
 
             return response()->json(["created"=>true], 201);
         } catch (\Exception $th) {

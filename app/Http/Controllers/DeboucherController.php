@@ -21,9 +21,15 @@ class DeboucherController extends Controller
     public function store(Request $request)
     {
         try {
-            $deboucher = Deboucher::create($request->only([
-                "deboucherName",
-            ]));
+            $data = $request->only([
+                "deboucherName"
+            ]);
+            $gen = new GenUuid();
+
+            $deboucher = Deboucher::create([
+                "deboucherId" => $gen->genUuid(),
+                "deboucherName" => $data["deboucherName"],
+            ]);
 
             return response()->json($deboucher, 201);
         } catch (\Exception $th) {

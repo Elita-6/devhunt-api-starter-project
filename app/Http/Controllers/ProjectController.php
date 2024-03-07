@@ -22,14 +22,24 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         try {
-            $project = Project::create($request->only([
+            $gen = new GenUuid();
+            $data = $request->only([
                 "title",
                 "projectDescritpion",
                 "imageUrl",
                 "startDate",
                 "endDate",
                 "profileId",
-            ]));
+            ]);
+
+            $project = Project::create([
+                "projectId" => $gen->genUuid(),
+                "title"=> $data["title"],
+                "projectDescription" => $data["projectDecription"],
+                "imageUrl" => $data["imageUrl"],
+                "startDate" => $data["startDate"],
+                "profileId" => $data["profileId"],
+            ]);
 
             return response()->json(["created"=>true, "project"=>$project], 201);
         } catch (\Exception $th) {

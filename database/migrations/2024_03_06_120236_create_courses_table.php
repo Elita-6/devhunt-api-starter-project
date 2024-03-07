@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->uuid("courseId")->default(Str::uuid())->primary();
+            // $table->uuid("courseId")->default(Str::uuid())->primary();
+            $table->uuid("courseId")->primary();
             $table->string("courseName")->nullable();
             $table->string("courseDescription")->nullable();
             $table->dateTime("sendingDate")->useCurrent();

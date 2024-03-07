@@ -13,10 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->uuid("imageId")->default(Str::uuid())->primary();
+            // $table->uuid("imageId")->default(Str::uuid())->primary();
+            $table->uuid("imageId")->primary();
             $table->string("imageUrl")->nullable();
             $table->uuid("postId")->nullable();
             $table->uuid("eventId")->nullable();
+
             $table->timestamps();
 
             $table->foreign("postId")
