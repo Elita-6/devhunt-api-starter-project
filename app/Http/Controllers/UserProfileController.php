@@ -65,20 +65,22 @@ class UserProfileController extends Controller
             $experience = [];
 
             $userProfile = UserProfile::where("userId", $userId)->first();
+            // dd($);
+            // dd($userProfile->experiences);
 
             if ($userProfile->porteId != null){
                 $porte = $userProfile->porteId;
             }
 
-            if($userProfile->technologies != null){
+            // if($userProfile->technologies() != null){
                 foreach ($userProfile->technologies as $tech) {
                     array_push($technology, $tech);
                 };
-            }
+                // }
 
-            foreach ($userProfile->experiences as $expe) {
-                array_push($experience, $expe);
-            }
+            // foreach ($userProfile->experiences as $expe) {
+            //     array_push($experience, $expe);
+            // }
 
             $data = [
                 "description"=>$userProfile->description,

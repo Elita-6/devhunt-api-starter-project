@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profile_teches', function (Blueprint $table) {
             $table->id();
             $table->uuid("profileId")->nullable();
-            $table->string("userId")->nullable();
+            $table->uuid("technologyId")->nullable();
             $table->timestamps();
 
 
@@ -24,9 +24,9 @@ return new class extends Migration
             ->onDelete("set null")
             ->onUpdate("cascade");
 
-            $table->foreign("userId")
-            ->references("userId")
-            ->on("users")
+            $table->foreign("technologyId")
+            ->references("technologyId")
+            ->on("technologies")
             ->onDelete("set null")
             ->onUpdate("cascade");
         });

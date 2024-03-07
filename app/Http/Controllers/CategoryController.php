@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return response()->json($categories);
     }
 
     /**
@@ -20,7 +21,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->only([
+                "categoryDesign",
+                "icon",
+            ]);
+
+            $category = Category::create([
+                "categoryId",
+                "categoryDesign",
+                "icon"
+            ]);
+
+            return response()->json($category, 201);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage" => $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -36,7 +52,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        try {
+            $data = $category->update($request->only([
+                "categoryDesign",
+                "icon"
+            ]));
+
+            return response()->json($category, 200);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -44,6 +69,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try {
+            $category->delete();
+            return response()->json(["deleted"=> true], 204);
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage"=> $th->getMessage()], 500);
+        }
     }
 }

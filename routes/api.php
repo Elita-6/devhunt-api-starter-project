@@ -129,7 +129,6 @@ Route::apiResource('message', MessageController::class);
 
 
     route::apiResource("post", PostController::class);
-
     route::get("/reaction/{postId}", [ReactionController::class,"index"]);
     route::apiResource("reaction", ReactionController::class)->except("index");
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -12,7 +13,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        return response(Course::all());
     }
 
     /**
@@ -20,7 +21,34 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $gen = new GenUuid();
+
+            $file = $request->file("file");
+            $data = $request->only([
+                "courseName",
+                "categoryId",
+                "fileType"
+            ]);
+
+            $filename = "course_".$data["courseName"].".".$file->getClientOriginalExtension();
+            $path = $file->storeAs('file', $filename, 'files');
+
+            $userId = Auth::user()->userId;
+            $course = Course::create([
+                "courseId" => $gen->genUuid(),
+                "courseName" => $data["courseName"],
+                "courseUrl" => $path,
+                "categoryId" => $data["categoryId"],
+                "fileType" => $data["fileType"],
+            ]);
+
+
+
+
+        } catch (\Exception $th) {
+            return response()->json(["errorMessage" => $th->getMessage()], 500);
+        }
     }
 
     /**
@@ -44,6 +72,7 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        $course->delete();
+        return response()->json(["deleted"=> true],204);
     }
 }
