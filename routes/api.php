@@ -118,11 +118,11 @@ Route::apiResource('message', MessageController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
     Route::get("tag/prompt/{prompt}", [TagController::class, "getTagByPrompt"]);
     Route::get("tag/{postId}", [TagController::class, "getTagByPost"]);
+    route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
 
-    Route::apiResource( "technology", TechnologyController::class);
 
     Route::get("/techProject/{projectId}", [TechProjectController::class,"index"]);
-    Route::apiResource("techProject", ProjectController::class)->except("index");
+    Route::apiResource("techProject", TechProjectController::class)->except("index");
 
 
 
@@ -135,9 +135,8 @@ Route::apiResource('message', MessageController::class);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
 
-    route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
-    route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
-    route::apiResource("tag", ProjectController::class)->except("index");
+    // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
+    // route::apiResource("tag", ProjectController::class)->except("index");
 
     Route::apiResource("course", CourseController::class);
 
