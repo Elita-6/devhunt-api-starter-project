@@ -105,3 +105,5 @@ Route::apiResource("techProject", ProjectController::class)->except("index");
 
 route::apiResource("userProfile", ProjectController::class);
 
+Route::post("bard", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
+

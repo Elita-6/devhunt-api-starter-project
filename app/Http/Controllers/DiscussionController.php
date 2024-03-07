@@ -13,6 +13,8 @@ class DiscussionController extends Controller
     public function index()
     {
         //
+
+
     }
 
     /**
@@ -21,6 +23,7 @@ class DiscussionController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -29,6 +32,7 @@ class DiscussionController extends Controller
     public function show(Discussion $discussion)
     {
         //
+
     }
 
     /**
