@@ -39,7 +39,7 @@ class Technology extends Model
      */
     public function profiles(): BelongsToMany
     {
-        return $this->belongsToMany(UserProfile::class, 'profile_techs', 'technologyId', 'profileId');
+        return $this->belongsToMany(UserProfile::class, 'profile_teches', 'technologyId', 'profileId');
     }
 
     /**

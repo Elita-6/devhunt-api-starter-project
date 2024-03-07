@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApartController;
 
 use App\Http\Controllers\AssistantGenerator;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ParcourController;
@@ -20,6 +21,7 @@ use App\Models\Deboucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ReactionController;
 // use App\Http\Controllers\TagController;
 use App\Http\Controllers\UuidGeneratorControllor;
@@ -116,11 +118,11 @@ Route::apiResource('message', MessageController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
     Route::get("tag/prompt/{prompt}", [TagController::class, "getTagByPrompt"]);
     Route::get("tag/{postId}", [TagController::class, "getTagByPost"]);
+    route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
 
-    Route::apiResource( "technology", TechnologyController::class);
 
     Route::get("/techProject/{projectId}", [TechProjectController::class,"index"]);
-    Route::apiResource("techProject", ProjectController::class)->except("index");
+    Route::apiResource("techProject", TechProjectController::class)->except("index");
 
 
 
@@ -129,12 +131,19 @@ Route::apiResource('message', MessageController::class);
 
 
     route::apiResource("post", PostController::class);
-
     route::get("/reaction/{postId}", [ReactionController::class,"index"]);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
 
+    // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
+    // route::apiResource("tag", ProjectController::class)->except("index");
+
 });
+
+
+    Route::apiResource("course", CourseController::class);
+
+    Route::apiResource("category", CategoryController::class);
 
 route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
 route::apiResource("userProfile", UserProfileController::class)->except("show");
