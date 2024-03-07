@@ -16,7 +16,10 @@ class DiscussionController extends Controller
     public function index()
     {
         //
+        $discussion = Discussion::where('userId', Auth::user()->userId)->first();
+        $data = $discussion->messages;
 
+        return response()->json($data, 200);
 
     }
 

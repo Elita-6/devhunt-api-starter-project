@@ -123,6 +123,7 @@ Route::apiResource('message', MessageController::class);
     Route::apiResource("techProject", ProjectController::class)->except("index");
 
 
+
     Route::post("bolidaai", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
 
 
