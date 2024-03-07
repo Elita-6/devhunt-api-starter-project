@@ -20,6 +20,11 @@ class TagController extends Controller
         return response()->json(Tag::where($postId)->get());
     }
 
+    public function getTagByPrompt(Request $request, string $prompt)
+    {
+        return response()->json(Tag::where("tagDesign", "like", "%".$prompt."%")->get());
+    }
+
     /**
      * Store a newly created resource in storage.
      */

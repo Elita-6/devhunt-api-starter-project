@@ -19,7 +19,6 @@ class PostController extends Controller
     {
 
         try {
-            //code...
             $posts = Post::orderBy("created_at","desc")->get();
 
             $data = [];
@@ -38,6 +37,7 @@ class PostController extends Controller
                 foreach ($post->comments as $comment) {
                     array_push($comments, [
                         "content" => $comment->content,
+                        "dateComment" => $comment->created_at,
                         "user" => [
                             "userId"=> $comment->user->userId,
                             "userName" => $comment->user->userName,
@@ -177,7 +177,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
         $post->delete();
         return response()->json(["message"=>"deleted"], 201);
 
