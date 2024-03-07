@@ -114,6 +114,8 @@ Route::apiResource('message', MessageController::class);
 
     Route::apiResource("tag", TagController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
+    Route::get("tag/prompt/{prompt}", [TagController::class, "getTagByPrompt"]);
+    Route::get("tag/{postId}", [TagController::class, "getTagByPost"]);
 
     Route::apiResource( "technology", TechnologyController::class);
 
