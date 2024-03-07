@@ -138,12 +138,12 @@ Route::apiResource('message', MessageController::class);
     // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     // route::apiResource("tag", ProjectController::class)->except("index");
 
+});
+
+
     Route::apiResource("course", CourseController::class);
 
     Route::apiResource("category", CategoryController::class);
-
-});
-
 
 route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
 route::apiResource("userProfile", UserProfileController::class)->except("show");

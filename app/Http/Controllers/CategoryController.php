@@ -23,14 +23,15 @@ class CategoryController extends Controller
     {
         try {
             $data = $request->only([
+                "categoryId",
                 "categoryDesign",
                 "icon",
             ]);
 
             $category = Category::create([
-                "categoryId",
-                "categoryDesign",
-                "icon"
+                "categoryId" => $data["categoryId"],
+                "categoryDesign" => $data["categoryDesign"],
+                "icon" => $data["icon"],
             ]);
 
             return response()->json($category, 201);
