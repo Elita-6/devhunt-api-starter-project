@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MessageController extends Controller
@@ -23,8 +24,7 @@ class MessageController extends Controller
     public function store(Request $request, $discussion)
     {
         //
-        $payload = JWTAuth::parseToken()->getPayload();
-        $userId = $payload['userid'];
+        $userId = Auth::user()->userId;
 
         $data = $request->only(["messageContent", "isBot"]);
         $messageId = new GenUuid();

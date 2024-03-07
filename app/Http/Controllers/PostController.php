@@ -80,9 +80,7 @@ class PostController extends Controller
                 "tags",
             ]);
             $gen = new GenUuid();
-            $payload = JWTAuth::parseToken()->getPayload();
-            $userId = $payload['userid'];
-
+            $userId = Auth::user()->userId;
             $post = Post::create([
                 "postId" => $gen->genUuid(),
                 "postTitle"=>$data["postTitle"],

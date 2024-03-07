@@ -91,7 +91,7 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 // API GENERATOR
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['verify.jwt.userid'])->group(function () {
 Route::apiResource('discussion', DiscussionController::class);
 Route::apiResource('message', MessageController::class);
 
@@ -116,6 +116,8 @@ Route::apiResource('message', MessageController::class);
 
     Route::apiResource("tag", TagController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
+    Route::get("tag/prompt/{prompt}", [TagController::class, "getTagByPrompt"]);
+    Route::get("tag/{postId}", [TagController::class, "getTagByPost"]);
 
     Route::apiResource( "technology", TechnologyController::class);
 
@@ -123,11 +125,9 @@ Route::apiResource('message', MessageController::class);
     Route::apiResource("techProject", ProjectController::class)->except("index");
 
 
+
     Route::post("bolidaai", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
 
-    route::get("/tag/post/{postId}", [ExperienceController::class,"getTagByPost"]);
-    route::get("/tag/prompt/{prompt}", [ExperienceController::class,"getTagByPrompt"]);
-    route::apiResource("tag", ProjectController::class)->except("index");
 
 
     route::apiResource("post", PostController::class);
@@ -135,6 +135,7 @@ Route::apiResource('message', MessageController::class);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
 
+<<<<<<< HEAD
     route::get("/tag/post/{postId}", [TagController::class,"getTagByPost"]);
     route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     route::apiResource("tag", ProjectController::class)->except("index");
@@ -143,6 +144,8 @@ Route::apiResource('message', MessageController::class);
 
     Route::apiResource("category", CategoryController::class);
 
+=======
+>>>>>>> 7195b618712b5b10bc59e2f73043b9e76f31297a
 });
 
 
@@ -150,4 +153,3 @@ route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
 route::apiResource("userProfile", UserProfileController::class)->except("show");
 
 
-// http://192.168.62.197:8000/api/tag/prompt/
