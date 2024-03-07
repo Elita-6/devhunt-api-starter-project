@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReactionController;
+use App\Http\Controllers\UuidGeneratorControllor;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,10 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 /***
  * Route by pywendi
  */
+
+// API GENERATOR
+Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
+
 Route::apiResource("domain", DomainController::class);
 
 Route::get("/experience/{profileId}", [ExperienceController::class,"index"]);
