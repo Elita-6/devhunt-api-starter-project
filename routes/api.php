@@ -126,7 +126,7 @@ Route::apiResource('message', MessageController::class);
 
 
 
-    Route::post("bolidaai", [\App\Http\Controllers\ChatController::class, 'generateResponse']);
+    Route::post("bolidaai", [ChatController::class, 'generateResponse']);
 
 
 
@@ -134,7 +134,8 @@ Route::apiResource('message', MessageController::class);
     route::get("/reaction/{postId}", [ReactionController::class,"index"]);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
-
+    Route::get('commentaire/{postid}', [\App\Http\Controllers\CommentaireController::class, 'index']);
+    Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class)->except('index');
     // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     // route::apiResource("tag", ProjectController::class)->except("index");
 

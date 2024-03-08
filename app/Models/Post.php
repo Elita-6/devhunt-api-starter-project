@@ -85,7 +85,7 @@ class Post extends Model
      */
     public function comments(): HasMany
     {
-        return $this->hasMany(Commentaire::class);
+        return $this->hasMany(Commentaire::class, "postId");
     }
 
     /**
@@ -96,5 +96,10 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'tag_posts', 'postId', 'tagId');
+    }
+
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'userId');
     }
 }

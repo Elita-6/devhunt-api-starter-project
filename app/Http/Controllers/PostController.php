@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\TagPost;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -27,21 +28,23 @@ class PostController extends Controller
             foreach ($posts as $post) {
                 $tags = [];
                 $comments = [];
-
                 // get tags
-                foreach ($posts->tags as $tag) {
+                foreach ($post->tags as $tag) {
+//                dd("trigger ss");
                     array_push($tags, [$tag->tagDesign]);
                 }
 
                 // Get comments
                 foreach ($post->comments as $comment) {
+
                     array_push($comments, [
                         "content" => $comment->content,
                         "dateComment" => $comment->created_at,
                         "user" => [
                             "userId"=> $comment->user->userId,
-                            "userName" => $comment->user->userName,
-                            "profileUrl"=> $comment->user->profileUrl,
+                            "userName" => $post->user->userName,
+                            "firstName" => $post->user->firstName,
+                            "profileUrl"=> $post->user->profileUrl,
                         ],
                     ]);
                 }
@@ -54,6 +57,7 @@ class PostController extends Controller
                     "user" => [
                         "userId" => $post->user->userId,
                         "userName" => $post->user->userName,
+                        "firstName" => $post->user->firstName,
                         "profileUrl" => $post->user->profileUrl,
                     ],
                     "tags"=> $tags,

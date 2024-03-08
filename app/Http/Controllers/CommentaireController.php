@@ -15,7 +15,7 @@ class CommentaireController extends Controller
     public function index($postid)
     {
         //
-        return response()->json(Commentaire::where('postId', $postid)->get());
+        return response()->json(Commentaire::where('postId', $postid)->orderBy('created_at', 'asc')->get());
     }
 
     /**
@@ -26,14 +26,19 @@ class CommentaireController extends Controller
         //
         $userId = Auth::user()->userId;
         $gen = new GenUuid();
+        $gen = $gen->genUuid();
+
         $data = $request->only(["content", "postId"]);
 
-        $comment = Commentaire::create([
-            "commentId" => $gen->genUuid(),
-            "content" => $data["content"],
-            "userId" => $userId,
-            "postId" => $data["postId"]
-        ]);
+        $commentId = $gen;
+
+        $comment = new Commentaire();
+
+            $comment["commentId"] = $commentId;
+            $comment["content"] = $data["content"];
+            $comment["userId"] = $userId;
+            $comment["postId"] = $data["postId"];
+        $comment->save();
 
         return response()->json($comment, 201);
 
