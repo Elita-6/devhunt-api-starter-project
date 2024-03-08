@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Technology;
 use App\Models\UserProfile;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class TechnologyController extends Controller
@@ -15,7 +16,9 @@ class TechnologyController extends Controller
     {
         $profile = UserProfile::where('profileId', $profileId)->first();
         $technology = [];
-
+        if($profile->technologies == null){
+            return response()->json(["message"=>"ce profile n'a pas de skills"], 204);
+        }
         $techs = $profile->technologies;
 
         foreach ($techs as $tech) {
