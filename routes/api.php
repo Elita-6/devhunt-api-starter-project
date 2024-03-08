@@ -142,7 +142,8 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     route::apiResource("reaction", ReactionController::class)->except("index");
 
     Route::get('commentaire/{postid}', [\App\Http\Controllers\CommentaireController::class, 'index']);
-    Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class)->except('index');
+    Route::delete('commentaire/{commentaire}', [\App\Http\Controllers\CommentaireController::class, 'destroy']);
+    Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class)->except(['index', 'destroy']);
     // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     // route::apiResource("tag", ProjectController::class)->except("index");
     Route::get("/userprofile/{userId}", [UserProfileController::class,"show"]);
