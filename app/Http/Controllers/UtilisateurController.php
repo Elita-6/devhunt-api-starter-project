@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User as Utilisation;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -71,6 +72,26 @@ class UtilisateurController extends Controller
 //                        $loginuser->forceFill(['api_token' => $token])->save();
                        $cookie = cookie('jwt', $token, 60 * 24);
 
+
+                       $gen = new GenUuid();
+                       UserProfile::firstOrCreate(
+                           [
+                               'userId'=>Auth::user()->userId
+                           ],
+                           [
+                               "profileId" => $gen->genUuid(),
+                               "description" => 'Your own userProfile',
+                               "linkGithub" => 'www.github.com',
+                               "linkLinkedin" => 'www.linkdin.com',
+                               "linkPortfolio" => 'your portfolio link',
+                               "isProf" => false,
+                               "userId" => Auth::user()->userId,
+                               "parcourId" => null,
+                               "level" => 'Your own level',
+                               "porteId" => null,
+                           ]);
+
+
                        // dd(Auth::user());
                        return response([
                            'message' => "Succes",
@@ -104,7 +125,6 @@ class UtilisateurController extends Controller
                                  'profileUrl' => $request->input('profileUrl')
                           ]);
 
-//                 dd($loginuser->mail);
 
 
                if($loginuser){
@@ -118,6 +138,28 @@ class UtilisateurController extends Controller
 //                    $loginuser->forceFill(['api_token' => $token])->save();
                    $cookie = cookie('jwt', $token, 24 * 60 * 60);
 
+                   $gen = new GenUuid();
+
+//            dd($data["description"]);
+
+                   UserProfile::firstOrCreate(
+                       [
+                           'userId'=>Auth::user()->userId
+                       ],
+                       [
+                       "profileId" => $gen->genUuid(),
+                       "description" => 'Your own userProfile',
+                       "linkGithub" => 'www.github.com',
+                       "linkLinkedin" => 'www.linkdin.com',
+                       "linkPortfolio" => 'your portfolio link',
+                       "isProf" => false,
+                       "userId" => Auth::user()->userId,
+                       "parcourId" => null,
+                       "level" => 'Your own level',
+                       "porteId" => null,
+                   ]);
+
+
                    // dd(Auth::user());
                    return response([
                        'message' => "Succes",
@@ -128,6 +170,8 @@ class UtilisateurController extends Controller
                else{
                    return response()->json(["message" => "Error creating"], 401);
                }
+
+
 
            }
            catch (\Exception $th)

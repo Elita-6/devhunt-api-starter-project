@@ -80,39 +80,47 @@ class UserProfileController extends Controller
 //            if ($userProfile->porteId != null){
 //                $porte = $userProfile->porteId;
 //            }
+//            dd($userProfile->technologies);
+             if($userProfile != null){
+                 if($userProfile->technologies != null){
+                     foreach ($userProfile->technologies as $tech) {
+                         array_push($technology, [
+                             "technologyId"=> $tech->technologyId,
+                             "technologyDescription" => $tech->technologyDesignation
+                         ]);
+                     };
+                 }
 
-             if($userProfile->technologies != null){
-                foreach ($userProfile->technologies as $tech) {
-                    array_push($technology, [
-                        "technologyId"=> $tech->technologyId,
-                        "technologyDescription" => $tech->technologyDesignation
-                    ]);
-                };
+                 if($userProfile->experiences != null){
+                     foreach ($userProfile->experiences as $expe) {
+                         array_push($experiences, $expe);
+                     }
+                 }
+
+                 if($userProfile->parcour != null){
+                     $parcour = $userProfile->parcour->parcourDesign;
+                 }else{$parcour = '';}
+
+                 $data = [
+                     "profileId" => $userProfile->profileId,
+                     "description"=>$userProfile->description,
+                     "linkGithub"=>$userProfile->linkGithub,
+                     "linkLinkedin"=>$userProfile->linkLinkedin,
+                     "linkPortfolio"=>$userProfile->linkPortfolio,
+                     "level" => $userProfile->level,
+                     "isProf"=>$userProfile->isProf,
+                     "user"=>$user,
+                     "parcour"=>$parcour,
+//                "porte"=>$porte,
+                     "technologies"=>$technology,
+                     "experience"=> $experiences,
+                     "projects" => $projects
+                 ];
+
+                 return response()->json($data);
              }
 
-            if($userProfile->experiences != null){
-                foreach ($userProfile->experiences as $expe) {
-                    array_push($experiences, $expe);
-                }
-            }
-
-            $data = [
-                "profileId" => $userProfile->profileId,
-                "description"=>$userProfile->description,
-                "linkGithub"=>$userProfile->linkGithub,
-                "linkLinkedin"=>$userProfile->linkLinkedin,
-                "linkPortfolio"=>$userProfile->linkPortfolio,
-                "level" => $userProfile->level,
-                "isProf"=>$userProfile->isProf,
-                "user"=>$user,
-                "parcour"=>$userProfile->parcour->parcourDesign,
-//                "porte"=>$porte,
-                "technologies"=>$technology,
-                "experience"=> $experiences,
-                "projects" => $projects
-            ];
-
-            return response()->json($data);
+             return response()->json(["message"=>"cette utilisateur n'a pas de profil"], 200);
 
         } catch (\Exception $th) {
             return response()->json([
