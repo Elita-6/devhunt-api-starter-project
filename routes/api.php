@@ -141,9 +141,9 @@ Route::apiResource('message', MessageController::class);
 });
 
 
-    Route::apiResource("course", CourseController::class);
+Route::apiResource("course", CourseController::class);
 
-    Route::apiResource("category", CategoryController::class);
+Route::apiResource("category", CategoryController::class);
 
 route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
 route::apiResource("userProfile", UserProfileController::class)->except("show");

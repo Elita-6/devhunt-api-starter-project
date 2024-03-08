@@ -65,8 +65,6 @@ class UserProfileController extends Controller
             $experience = [];
 
             $userProfile = UserProfile::where("userId", $userId)->first();
-            // dd($);
-            // dd($userProfile->experiences);
 
             if ($userProfile->porteId != null){
                 $porte = $userProfile->porteId;
@@ -74,13 +72,16 @@ class UserProfileController extends Controller
 
             // if($userProfile->technologies() != null){
                 foreach ($userProfile->technologies as $tech) {
+                    // dd($tech);
                     array_push($technology, $tech);
                 };
                 // }
 
-            // foreach ($userProfile->experiences as $expe) {
-            //     array_push($experience, $expe);
-            // }
+                // dd($userProfile->experiences()[0]);
+                foreach ($userProfile->experiences as $expe) {
+                    dd($expe[0]);
+                    array_push($experience, $expe);
+                }
 
             $data = [
                 "description"=>$userProfile->description,
@@ -89,7 +90,7 @@ class UserProfileController extends Controller
                 "linkPortfolio"=>$userProfile->linkPortfolio,
                 "isProf"=>$userProfile->isProf,
                 "user"=>[
-                    "id"=>$userProfile->user_id,
+                    "id"=>$userProfile->user->userId,
                     "userName"=>$userProfile->user->userName,
                     "firstName"=>$userProfile->user->firstName,
                     "lastName"=>$userProfile->user->lastName,

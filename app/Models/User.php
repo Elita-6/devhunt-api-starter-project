@@ -30,7 +30,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $primaryKey = "userId";
-    protected $keyType = "string";
+    // protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",
@@ -51,7 +51,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function profile(): HasOne
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(UserProfile::class, "profileId");
     }
 
 
