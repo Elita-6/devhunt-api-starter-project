@@ -31,6 +31,10 @@ class TechnologyController extends Controller
         return response()->json($technology, 200);
     }
 
+    public function alltech(){
+        return response()->json(Technology::all(), 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
