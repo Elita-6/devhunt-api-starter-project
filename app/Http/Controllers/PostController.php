@@ -42,22 +42,23 @@ class PostController extends Controller
                         "dateComment" => $comment->created_at,
                         "user" => [
                             "userId"=> $comment->user->userId,
-                            "userName" => $user->userName,
-                            "profileUrl"=> $user->profileUrl,
+                            "userName" => $post->user->userName,
+                            "firstName" => $post->user->firstName,
+                            "profileUrl"=> $post->user->profileUrl,
                         ],
                     ]);
                 }
 
                 // Set all data together
-                $user = User::where('userId', $post->user->userId)->first();
                 array_push($data, [
                     "postId" => $post->postId,
                     "postDescription" => $post->postDescription,
                     "dateCreation" => $post->created_at,
                     "user" => [
                         "userId" => $post->user->userId,
-                        "userName" => $user->firstName,
-                        "profileUrl" => $user->profileUrl,
+                        "userName" => $post->user->userName,
+                        "firstName" => $post->user->firstName,
+                        "profileUrl" => $post->user->profileUrl,
                     ],
                     "tags"=> $tags,
                     "comments" => $comments,
