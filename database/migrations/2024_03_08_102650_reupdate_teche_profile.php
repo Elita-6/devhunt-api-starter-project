@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         //
+        Schema::drop('profile_teches');
+
         Schema::create('profile_teches', function (Blueprint $table) {
 
             $table->id();
