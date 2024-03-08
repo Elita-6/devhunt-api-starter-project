@@ -20,7 +20,7 @@ class Project extends Model
         'imageUrl',
         'startDate',
         'endDate',
-        'profileID',
+        'userId',
     ];
 
     protected $primaryKey = "projectId";
