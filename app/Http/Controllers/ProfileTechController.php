@@ -18,14 +18,20 @@ class ProfileTechController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $profileid)
     {
-        $techid = $request->input("technologyId");
+        $techid = $request->input("added");
+        $removed = $request->input("removed");
        foreach ($techid as $id){
            ProfileTech::create([
-               'profileId' => $request->input('profileId'),
+               'profileId' => $profileid,
                'technologyId' => $id
            ]);
+       }
+
+       foreach ($removed as $id){
+           $tech = ProfileTech::where('technologyId', $id)->where('profileId', $profileid)->first();
+           $tech->delete();
        }
 
         return response()->json(["message"=>"success"], 200);

@@ -17,7 +17,7 @@ class TechnologyController extends Controller
         $profile = UserProfile::where('profileId', $profileId)->first();
         $technology = [];
         if($profile->technologies == null){
-            return response()->json(["message"=>"ce profile n'a pas de skills"], 204);
+            return response()->json([], 204);
         }
         $techs = $profile->technologies;
 
