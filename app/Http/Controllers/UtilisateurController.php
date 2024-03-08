@@ -185,9 +185,9 @@ class UtilisateurController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Utilisation $utilisateur)
+    public function show()
     {
-        return response()->json($utilisateur);
+        return response()->json(Auth::user());
     }
 
     /**

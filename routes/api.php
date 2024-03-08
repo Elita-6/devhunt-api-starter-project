@@ -79,7 +79,8 @@ Route::post('/chat/generate-response', [ChatController::class, 'generateResponse
 //Route::apiResource('post', PostController::class);
 //Route::apiResource('tag', TagController::class);
 
-Route::apiResource("user", UtilisateurController::class);
+Route::get('/user/connected', [UtilisateurController::class, 'show']);
+Route::apiResource("user", UtilisateurController::class)->except('show');
 
 
 Route::post("/openai", [AssistantGenerator::class,"index"]);
