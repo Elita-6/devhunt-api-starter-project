@@ -108,7 +108,7 @@ class UserProfileController extends Controller
                 "parcour"=>$userProfile->parcour->parcourDesign,
 //                "porte"=>$porte,
                 "technologies"=>$technology,
-                "experience"=> $experience,
+                "experience"=> $experiences,
                 "projects" => $projects
             ];
 
