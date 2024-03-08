@@ -83,7 +83,6 @@ Route::get('/user/connected', [UtilisateurController::class, 'show']);
 Route::apiResource("user", UtilisateurController::class)->except('show');
 
 
-Route::post("/openai", [AssistantGenerator::class,"index"]);
 
 
 /***
@@ -92,6 +91,7 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 
 // API GENERATOR
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
+
 
 Route::middleware(['verify.jwt.userid'])->group(function () {
 
@@ -139,8 +139,8 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     Route::post("bolidaai", [ChatController::class, 'generateResponse']);
 
 
-
-    route::apiResource("post", PostController::class);
+    Route::get("/post/filter/{tag}", [PostController::class,"filterByTag"]);
+    route::apiResource("post", PostController::class)->except('filterByTag');
     route::get("/reaction/{postId}", [ReactionController::class,"index"]);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
