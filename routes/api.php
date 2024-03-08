@@ -150,13 +150,12 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     Route::put("/userprofile/{profileId}", [UserProfileController::class,"update"]);
     Route::apiResource("userprofile", UserProfileController::class)->except(["show", "update"]);
 
+    Route::apiResource("course", CourseController::class);
+    Route::apiResource("category", CategoryController::class);
+
 });
 
 
-
-Route::apiResource("course", CourseController::class);
-
-Route::apiResource("category", CategoryController::class);
 
 
 

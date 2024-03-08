@@ -28,7 +28,8 @@ class CourseController extends Controller
             $data = $request->only([
                 "courseName",
                 "categoryId",
-                "fileType"
+                "fileType",
+                "courseDescription"
             ]);
 
             $filename = "course_".$data["courseName"].".".$file->getClientOriginalExtension();
@@ -38,9 +39,11 @@ class CourseController extends Controller
             $course = Course::create([
                 "courseId" => $gen->genUuid(),
                 "courseName" => $data["courseName"],
+                "courseDescription" => $request->input("courseDescription"),
                 "courseUrl" => $path,
                 "categoryId" => $data["categoryId"],
                 "fileType" => $data["fileType"],
+                "userId"=>$userId
             ]);
 
 
