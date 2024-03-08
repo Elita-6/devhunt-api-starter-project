@@ -20,12 +20,15 @@ class ProfileTechController extends Controller
      */
     public function store(Request $request)
     {
-        ProfileTech::create($request->only([
-            "profileId",
-            "technologyId"
-        ]));
+        $techid = $request->input("technologyId");
+       foreach ($techid as $id){
+           ProfileTech::create([
+               'profileId' => $request->input('profileId'),
+               'technologyId' => $id
+           ]);
+       }
 
-        return response()->json([], 201);
+        return response()->json(["message"=>"success"], 200);
     }
 
     /**
@@ -47,8 +50,12 @@ class ProfileTechController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProfileTech $profileTech)
+    public function destroy($profile, $tech)
     {
         //
+
+        ProfileTech::where('technologyId', $tech)->where('profileId', $profile)->delete();
+
+        return response()->json(["message"=>"deleted"], 201);
     }
 }

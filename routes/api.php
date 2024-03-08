@@ -9,6 +9,7 @@ use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ParcourController;
 use App\Http\Controllers\ParcourDeboucherController;
 use App\Http\Controllers\PorteController;
+use App\Http\Controllers\ProfileTechController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
@@ -92,8 +93,9 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
 
 Route::middleware(['verify.jwt.userid'])->group(function () {
-Route::apiResource('discussion', DiscussionController::class);
-Route::apiResource('message', MessageController::class);
+
+    Route::apiResource('discussion', DiscussionController::class);
+    Route::apiResource('message', MessageController::class);
 
 
     Route::apiResource("domain", DomainController::class);
@@ -113,6 +115,9 @@ Route::apiResource('message', MessageController::class);
     Route::apiResource("project", ProjectController::class);
     Route::apiResource( "technology", TechnologyController::class);
     Route::get("techno/search/{skill}", [TechnologyController::class, "search"]);
+
+    Route::delete("profiletech/{profile}/{tech}", [ProfileTechController::class, 'destroy']);
+    Route::apiResource("profiletech", \App\Http\Controllers\ProfileTechController::class)->except('destroy');
 
     Route::apiResource("tag", TagController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
@@ -138,15 +143,17 @@ Route::apiResource('message', MessageController::class);
     Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class)->except('index');
     // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     // route::apiResource("tag", ProjectController::class)->except("index");
+    Route::get("/userprofile/{userId}", [UserProfileController::class,"show"]);
+    Route::put("/userprofile/{profileId}", [UserProfileController::class,"update"]);
+    Route::apiResource("userprofile", UserProfileController::class)->except(["show", "update"]);
 
 });
 
 
-    Route::apiResource("course", CourseController::class);
 
-    Route::apiResource("category", CategoryController::class);
+Route::apiResource("course", CourseController::class);
 
-route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
-route::apiResource("userProfile", UserProfileController::class)->except("show");
+Route::apiResource("category", CategoryController::class);
+
 
 

@@ -25,14 +25,12 @@ class ParcourController extends Controller
             $gen = new GenUuid();
 
             $data = $request->only([
-                "title",
                 "parcourDesign",
                 "parcourDescription"
             ]);
 
             $parcour = Parcour::create([
                 "parcourId" => $gen->genUuid(),
-                "title" => $data["title"],
                 "parcourDesign" => $data["parcourDesign"],
                 "parcourDescription" => $data["parcourDescription"],
             ]);
