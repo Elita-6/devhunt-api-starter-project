@@ -10,7 +10,7 @@ class ExperienceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, int $profileId)
+    public function index($profileId)
     {
         $experience = Experience::where("profileId", $profileId)->get();
 

@@ -11,10 +11,10 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($userId)
     {
-        $projects = Project::all();
-        return response()->json($projects);
+        $projects = Project::where('userId', $userId)->get();
+        return $projects;
     }
 
     /**

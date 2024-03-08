@@ -112,8 +112,10 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     Route::get("/deboucher/{parcourId}", [ParcourDeboucherController::class,"index"]);
     Route::apiResource("parcourDeboucher", ParcourDeboucherController::class)->except("index");
 
-    Route::apiResource("project", ProjectController::class);
-    Route::apiResource( "technology", TechnologyController::class);
+    Route::get('project/{userId}', [ProjectController::class, 'index']);
+    Route::apiResource("project", ProjectController::class)->except('index');
+    Route::get('technology/{profileId}', [TechnologyController::class, 'index']);
+    Route::apiResource( "technology", TechnologyController::class)->except('index');
     Route::get("techno/search/{skill}", [TechnologyController::class, "search"]);
 
     Route::delete("profiletech/{profile}/{tech}", [ProfileTechController::class, 'destroy']);
