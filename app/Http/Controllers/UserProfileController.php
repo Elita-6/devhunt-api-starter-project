@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Experience;
 use App\Models\ProfileTech;
+use App\Models\Project;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -67,7 +69,8 @@ class UserProfileController extends Controller
         try {
             $porte = null;
             $technology = [];
-            $experience = [];
+            $experiences = [];
+            $projects = Project::where('userId', $userId)->get();
             $user = User::where("userId", $userId)->first();
 
             $userProfile = UserProfile::where("userId", $userId)->first();
@@ -89,7 +92,7 @@ class UserProfileController extends Controller
 
             if($userProfile->experiences != null){
                 foreach ($userProfile->experiences as $expe) {
-                    array_push($experience, $expe);
+                    array_push($experiences, $expe);
                 }
             }
 
@@ -106,6 +109,7 @@ class UserProfileController extends Controller
 //                "porte"=>$porte,
                 "technologies"=>$technology,
                 "experience"=> $experience,
+                "projects" => $projects
             ];
 
             return response()->json($data);
