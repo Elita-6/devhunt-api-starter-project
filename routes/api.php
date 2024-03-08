@@ -119,7 +119,8 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     Route::get("techno/search/{skill}", [TechnologyController::class, "search"]);
 
     Route::delete("profiletech/{profile}/{tech}", [ProfileTechController::class, 'destroy']);
-    Route::apiResource("profiletech", \App\Http\Controllers\ProfileTechController::class)->except('destroy');
+    Route::post('profiletech/{profileid}', [ProfileTechController::class, 'store']);
+    Route::apiResource("profiletech", \App\Http\Controllers\ProfileTechController::class)->except(['destroy', 'store']);
 
     Route::apiResource("tag", TagController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
