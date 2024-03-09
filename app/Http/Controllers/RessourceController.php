@@ -58,24 +58,26 @@ class RessourceController extends Controller
         try {
             $gen = new GenUuid();
 
-            $file = $request->file("file");
+            $files = $request->file("file");
             $data = $request->only([
                 "ressourceName",
                 "categoryIds",
             ]);
 
-            $file = $file[0];
-            $filename = "ressource_".$data["ressourceName"].".".$file->getClientOriginalExtension();
-            $path = $file->storeAs('', $filename, 'files');
-            // dd($path);
-            $userId = Auth::user()->userId;
+            // $file = $file[0];
+            foreach ($files as $file) {
+                $filename = "ressource_".$data["ressourceName"].".".$file->getClientOriginalExtension();
+                $path = $file->storeAs('', $filename, 'files');
+                // dd($path);
+                $userId = Auth::user()->userId;
 
-            $ressource = Ressource::create([
-                "ressourceId" => $gen->genUuid(),
-                "ressourceName" => $data["ressourceName"],
-                "ressourceUrl" => $path,
-                "userId"=>$userId
-            ]);
+                $ressource = Ressource::create([
+                    "ressourceId" => $gen->genUuid(),
+                    "ressourceName" => $data["ressourceName"],
+                    "ressourceUrl" => $path,
+                    "userId"=>$userId
+                ]);
+            }
 
 
             // foreach ($data["categoryIds"] as $tagId) {
