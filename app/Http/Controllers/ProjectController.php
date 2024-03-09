@@ -38,7 +38,7 @@ class ProjectController extends Controller
                 "title"=> $data["title"],
                 "projectDescription" => $data["projectDescription"],
                 "imageUrl" => $data["imageUrl"],
-                "startDate" => $data["startDate"],
+                "startDate" => $request->input("startDate"),
                 "userId" => Auth::user()->userId,
 
             ]);
