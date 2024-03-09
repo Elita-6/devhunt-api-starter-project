@@ -150,13 +150,13 @@ class UserProfileController extends Controller
 
             $userProfile = UserProfile::where('profileId', $profileId)->first();
 
-            $userProfile->description = $data['description'];
-            $userProfile->linkGithub = $data['linkGithub'];
-            $userProfile->linkLinkedin = $data['linkLinkedin'];
-            $userProfile->linkPortfolio = $data['linkPortfolio'];
-            $userProfile->isProf = $data['isProf'];
-            $userProfile->level = $data['level'];
-            $userProfile->parcourId = $data['parcourId'];
+            $userProfile->description = $request->input('description');
+            $userProfile->linkGithub = $request->input('linkGithub');
+            $userProfile->linkLinkedin = $request->input('linkLinkedin');
+            $userProfile->linkPortfolio = $request->input('linkPortfolio');
+            $userProfile->isProf = $request->input('isProf');
+            $userProfile->level = $request->input('level');
+            $userProfile->parcourId = $request->input('parcourId');
 //            $userProfile->porteId = $data['porteId'];
 
             $userProfile->save();
