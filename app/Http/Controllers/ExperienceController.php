@@ -38,13 +38,14 @@ class ExperienceController extends Controller
 
             $experience = Experience::create([
                 "experienceId" => $gen->genUuid(),
-                "experiencePost" => $request->input("experiencePost"),
+                "experiencePost" => is_array($request->input("experiencePost")) ? $request->input("experiencePost") : [$request->input("experiencePost")],
                 "experienceDescription" => $request->input("experienceDescription"),
                 "experienceLocal" => $request->input("experienceLocal"),
                 "dateStart" => $request->input("dateStart"),
                 "dateEnd" => $request->input("dateEnd"),
                 "profileId" => $request->input("profileId")
             ]);
+
 
             return response()->json($experience, 201);
 
