@@ -18,6 +18,8 @@ class UserProfileController extends Controller
     public function index()
     {
         //
+
+        return response()->json(UserProfile::all());
     }
 
     /**
