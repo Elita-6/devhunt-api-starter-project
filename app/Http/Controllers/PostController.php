@@ -24,7 +24,7 @@ class PostController extends Controller
             // $perPage = $request->input('per_page', 10);
 
             // $startIndex = ($currentPage - 1) * $perPage;
-
+            // dd("Hello");
             $posts = Post::orderBy("created_at","desc")->offset(0)->limit(10)->get();
 
             $data = [];
@@ -33,6 +33,7 @@ class PostController extends Controller
             foreach ($posts as $post) {
                 $tags = [];
                 $comments = [];
+                $reactions = [];
                 // get tags
                 foreach ($post->tags as $tag) {
 //                dd("trigger ss");
@@ -54,6 +55,11 @@ class PostController extends Controller
                     ]);
                 }
 
+                // Get all reaction
+                foreach ($post->user_reagis as $reaction) {
+                    array_push($reactions,$reaction->userId);
+                }
+
                 // Set all data together
                 array_push($data, [
                     "postId" => $post->postId,
@@ -67,6 +73,7 @@ class PostController extends Controller
                     ],
                     "tags"=> $tags,
                     "comments" => $comments,
+                    "reaction" => $reactions,
                 ]);
             }
 
@@ -87,6 +94,7 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $tags = [];
             $comments = [];
+            $reactions = [];
             // get tags
             foreach ($post->tags as $tag) {
 //                dd("trigger ss");
@@ -108,6 +116,11 @@ class PostController extends Controller
                 ]);
             }
 
+            // Get all reaction
+            foreach ($post->user_reagis as $reaction) {
+                array_push($reactions,$reaction->userId);
+            }
+
             // Set all data together
             array_push($data, [
                 "postId" => $post->postId,
@@ -121,6 +134,7 @@ class PostController extends Controller
                 ],
                 "tags"=> $tags,
                 "comments" => $comments,
+                "reaction" => $reactions,
             ]);
         }
 
@@ -171,6 +185,7 @@ class PostController extends Controller
             $data = [];
             $tags = [];
             $comments = [];
+            $reactions = [];
 
             // get tags
             foreach ($post->tags as $tag) {
@@ -189,6 +204,12 @@ class PostController extends Controller
                 ]);
             }
 
+
+            // Get all reaction
+            foreach ($post->user_reagis as $reaction) {
+                array_push($reactions,$reaction->userId);
+            }
+
             // Set all data together
             array_push($data, [
                 "postId" => $post->postId,
@@ -201,6 +222,7 @@ class PostController extends Controller
                 ],
                 "tags"=> $tags,
                 "comments" => $comments,
+                "reaction" => $reactions,
             ]);
 
             return response()->json($data, 200);

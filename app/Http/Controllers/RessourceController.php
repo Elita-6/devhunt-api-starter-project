@@ -58,14 +58,14 @@ class RessourceController extends Controller
         try {
             $gen = new GenUuid();
 
-            $files = $request->file("file");
+            $file = $request->file("file");
             $data = $request->only([
                 "ressourceName",
                 "categoryIds",
             ]);
 
             // $file = $file[0];
-            foreach ($files as $file) {
+            // foreach ($files as $file) {
                 $filename = "ressource_".$data["ressourceName"].".".$file->getClientOriginalExtension();
                 $path = $file->storeAs('', $filename, 'files');
                 // dd($path);
@@ -77,7 +77,7 @@ class RessourceController extends Controller
                     "ressourceUrl" => $path,
                     "userId"=>$userId
                 ]);
-            }
+            // }
 
 
             // foreach ($data["categoryIds"] as $tagId) {
