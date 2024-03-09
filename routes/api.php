@@ -161,4 +161,3 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     Route::apiResource("ressource", RessourceController::class);
     Route::get("/ressource/download/{ressourceId}", [RessourceController::class, "download"]);
 });
-
