@@ -29,6 +29,7 @@ use App\Http\Controllers\UuidGeneratorControllor;
 use App\Models\UserProfile;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\RessourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,9 +157,8 @@ Route::middleware(['verify.jwt.userid'])->group(function () {
     Route::apiResource("course", CourseController::class);
     Route::apiResource("category", CategoryController::class);
 
+    // PyWendi part ressource routes
+    Route::apiResource("ressource", RessourceController::class);
+    Route::get("/ressource/download/{ressourceId}", [RessourceController::class, "download"]);
 });
-
-
-
-
 

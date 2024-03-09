@@ -21,6 +21,7 @@ class UserProfile extends Model
         "linkLinkedin",
         "linkPortfolio",
         "isProf",
+        "level",
         "userId",
         "parcourId",
         "porteId"

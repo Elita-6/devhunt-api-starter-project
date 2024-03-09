@@ -13,7 +13,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return response(Course::all());
+        // return response(Course::all());
     }
 
     /**
@@ -27,10 +27,14 @@ class CourseController extends Controller
             $file = $request->file("file");
             $data = $request->only([
                 "courseName",
-                "categoryId",
+                "courseDescription",
+                "categoryIds",
                 "fileType",
-                "courseDescription"
             ]);
+
+            foreach ($data["categoryIds"] as $tags) {
+                # code...
+            }
 
             $filename = "course_".$data["courseName"].".".$file->getClientOriginalExtension();
             $path = $file->storeAs('file', $filename, 'files');

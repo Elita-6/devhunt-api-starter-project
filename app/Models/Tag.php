@@ -43,4 +43,14 @@ class Tag extends Model
     {
         return $this->belongsToMany(Post::class, 'tag_posts', 'tagId', 'postId');
     }
+
+    /**
+     * The ressources that belong to the Tag
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function ressources(): BelongsToMany
+    {
+        return $this->belongsToMany(Ressource::class, 'ressource_tags', 'tagId', 'ressourceId');
+    }
 }
