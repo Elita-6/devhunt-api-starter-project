@@ -11,10 +11,11 @@ class ReactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, int $postId)
+    public function index(Request $request, string $postId)
     {
-        $post = Post::where("postId", $postId)->get();
+        $post = Post::where("postId", $postId)->first();
         $ids = [];
+        // dd($post->user_reagis);
         foreach ($post->user_reagis as $reactor) {
             array_push($ids, $reactor->userId);
         }
