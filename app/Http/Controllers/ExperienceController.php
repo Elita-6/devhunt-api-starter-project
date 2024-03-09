@@ -14,7 +14,9 @@ class ExperienceController extends Controller
     {
         $experience = Experience::where("profileId", $profileId)->get();
 
-        return response()->json($experience);
+        if($experience){return response()->json($experience);}
+
+        return response()->json([], 200);
     }
 
     /**
