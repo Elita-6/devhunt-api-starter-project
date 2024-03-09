@@ -23,7 +23,7 @@ class TechnologyController extends Controller
 
         foreach ($techs as $tech) {
             array_push($technology, [
-                "tecnologyId" => $tech->technologyId,
+                "technologyId" => $tech->technologyId,
                 "technologyDesignation" => $tech->technologyDesignation
             ]);
         }
@@ -64,7 +64,7 @@ class TechnologyController extends Controller
     }
 
     public function search($skill){
-        $skills = Technology::where('technologyDesignation', 'like', '%'. $skill .'%')->get();
+        $skills = Technology::where('technologyDesignation', 'ilike', '%'. $skill .'%')->get();
         return $skills;
     }
 
