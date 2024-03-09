@@ -86,7 +86,7 @@ class UserProfileController extends Controller
                      foreach ($userProfile->technologies as $tech) {
                          array_push($technology, [
                              "technologyId"=> $tech->technologyId,
-                             "technologyDescription" => $tech->technologyDesignation
+                             "technologyDesignation" => $tech->technologyDesignation
                          ]);
                      };
                  }
@@ -112,15 +112,15 @@ class UserProfileController extends Controller
                      "user"=>$user,
                      "parcour"=>$parcour,
 //                "porte"=>$porte,
-                     "technologies"=>$technology,
-                     "experience"=> $experiences,
+                     "technology"=>$technology,
+                     "experiences"=> $experiences,
                      "projects" => $projects
                  ];
 
                  return response()->json($data);
              }
 
-             return response()->json(["message"=>"cette utilisateur n'a pas de profil"], 200);
+             return response()->json([], 204);
 
         } catch (\Exception $th) {
             return response()->json([
