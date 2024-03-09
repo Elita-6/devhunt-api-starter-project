@@ -39,6 +39,7 @@ class RessourceController extends Controller
             array_push($data, [
                 "ressourceId" => $ressource->ressourceId,
                 "ressourceName" => $ressource->ressourceName,
+                // "ressourceUrl" => $ressource->ressourceUrl,
                 "tags" => $tag,
                 "user" => $user,
                 "date" => $ressource->created_at,
@@ -63,10 +64,10 @@ class RessourceController extends Controller
                 "categoryIds",
             ]);
 
-
+            $file = $file[0];
             $filename = "ressource_".$data["ressourceName"].".".$file->getClientOriginalExtension();
             $path = $file->storeAs('', $filename, 'files');
-
+            // dd($path);
             $userId = Auth::user()->userId;
 
             $ressource = Ressource::create([
