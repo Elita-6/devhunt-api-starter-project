@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Technology;
+use App\Models\UserProfile;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class TechnologyController extends Controller
@@ -10,9 +12,27 @@ class TechnologyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($profileId)
     {
-        return response()->json(Technology::all());
+        $profile = UserProfile::where('profileId', $profileId)->first();
+        $technology = [];
+        if($profile->technologies == null){
+            return response()->json([], 204);
+        }
+        $techs = $profile->technologies;
+
+        foreach ($techs as $tech) {
+            array_push($technology, [
+                "tecnologyId" => $tech->technologyId,
+                "technologyDesignation" => $tech->technologyDesignation
+            ]);
+        }
+
+        return response()->json($technology, 200);
+    }
+
+    public function alltech(){
+        return response()->json(Technology::all(), 200);
     }
 
     /**

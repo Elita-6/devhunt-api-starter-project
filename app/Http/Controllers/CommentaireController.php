@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -15,7 +16,17 @@ class CommentaireController extends Controller
     public function index($postid)
     {
         //
-        return response()->json(Commentaire::where('postId', $postid)->orderBy('created_at', 'asc')->get());
+        $comments = [];
+        $com = Commentaire::where('postId', $postid)->orderBy('created_at', 'asc')->get();
+        foreach ($com as $comment)
+            {
+                $user = \App\Models\User::where('userId', $comment->userId)->first();
+                array_push($comments, [
+                    "comment" => $comment,
+                    "user" => $user
+                ]);
+            }
+        return response()->json($comments, 200);
     }
 
     /**
@@ -68,9 +79,11 @@ class CommentaireController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Commentaire $commentaire)
+    public function destroy($commentaire)
     {
         //
-
+        $com = Commentaire::where('commentId', $commentaire)->first();
+        $com->delete();
+        return response()->json(["message" => "deleted"], 201);
     }
 }

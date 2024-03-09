@@ -6,29 +6,25 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Course extends Model
+class Ressource extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        "courseId",
-        "courseName",
-        "courseDescription",
-        // "sendinDate",
-        "courseUrl",
-        "filetype",
+        "ressourceId",
+        "ressourceName",
+        "ressourceUrl",
         "userId",
-        "categoryId",
     ];
 
 
-    protected $primaryKey = "courseId";
+    protected $primaryKey = "ressourceId";
     protected $keyType = "string";
 
     protected $cast = [
         "created_at" => "datetime:Y-m-d H:m:i",
-        "sendingDate" => "datetime:Y-m-d H:m:i",
     ];
 
     /**
@@ -39,23 +35,21 @@ class Course extends Model
         return $date->format('Y-m-d H-m-i');
     }
 
-    /**
-     * Get the user that owns the Course
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId');
     }
 
     /**
-     * Get the category that owns the Course
+     * The tags that belong to the Ressource
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function category(): BelongsTo
+    public function tags(): BelongsToMany
     {
-        return $this->belongsTo(Category::class, 'categoryId');
+        return $this->belongsToMany(Tag::class, 'ressource_tags', 'ressourceId', 'tagId');
     }
+
 }
+

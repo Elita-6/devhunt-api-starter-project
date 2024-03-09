@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($userId)
     {
-        $projects = Project::all();
-        return response()->json($projects);
+        $projects = Project::where('userId', $userId)->get();
+        return $projects;
     }
 
     /**
@@ -25,7 +26,7 @@ class ProjectController extends Controller
             $gen = new GenUuid();
             $data = $request->only([
                 "title",
-                "projectDescritpion",
+                "projectDescription",
                 "imageUrl",
                 "startDate",
                 "endDate",
@@ -35,10 +36,11 @@ class ProjectController extends Controller
             $project = Project::create([
                 "projectId" => $gen->genUuid(),
                 "title"=> $data["title"],
-                "projectDescription" => $data["projectDecription"],
+                "projectDescription" => $data["projectDescription"],
                 "imageUrl" => $data["imageUrl"],
                 "startDate" => $data["startDate"],
-                "profileId" => $data["profileId"],
+                "userId" => Auth::user()->userId,
+
             ]);
 
             return response()->json(["created"=>true, "project"=>$project], 201);

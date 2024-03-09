@@ -9,6 +9,7 @@ use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ParcourController;
 use App\Http\Controllers\ParcourDeboucherController;
 use App\Http\Controllers\PorteController;
+use App\Http\Controllers\ProfileTechController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\UuidGeneratorControllor;
 use App\Models\UserProfile;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\RessourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,10 +80,10 @@ Route::post('/chat/generate-response', [ChatController::class, 'generateResponse
 //Route::apiResource('post', PostController::class);
 //Route::apiResource('tag', TagController::class);
 
-Route::apiResource("user", UtilisateurController::class);
+Route::get('/user/connected', [UtilisateurController::class, 'show']);
+Route::apiResource("user", UtilisateurController::class)->except('show');
 
 
-Route::post("/openai", [AssistantGenerator::class,"index"]);
 
 
 /***
@@ -91,9 +93,11 @@ Route::post("/openai", [AssistantGenerator::class,"index"]);
 // API GENERATOR
 Route::get("/genUuid", [UuidGeneratorControllor::class,"generate"]);
 
+
 Route::middleware(['verify.jwt.userid'])->group(function () {
-Route::apiResource('discussion', DiscussionController::class);
-Route::apiResource('message', MessageController::class);
+
+    Route::apiResource('discussion', DiscussionController::class);
+    Route::apiResource('message', MessageController::class);
 
 
     Route::apiResource("domain", DomainController::class);
@@ -110,9 +114,16 @@ Route::apiResource('message', MessageController::class);
     Route::get("/deboucher/{parcourId}", [ParcourDeboucherController::class,"index"]);
     Route::apiResource("parcourDeboucher", ParcourDeboucherController::class)->except("index");
 
-    Route::apiResource("project", ProjectController::class);
-    Route::apiResource( "technology", TechnologyController::class);
+    Route::get('project/{userId}', [ProjectController::class, 'index']);
+    Route::apiResource("project", ProjectController::class)->except('index');
+    Route::get('technology/all', [TechnologyController::class, 'alltech']);
+    Route::get('technology/{profileId}', [TechnologyController::class, 'index']);
+    Route::apiResource( "technology", TechnologyController::class)->except(['index', 'alltech']);
     Route::get("techno/search/{skill}", [TechnologyController::class, "search"]);
+
+    Route::delete("profiletech/{profile}/{tech}", [ProfileTechController::class, 'destroy']);
+    Route::post('profiletech/{profileid}', [ProfileTechController::class, 'store']);
+    Route::apiResource("profiletech", \App\Http\Controllers\ProfileTechController::class)->except(['destroy', 'store']);
 
     Route::apiResource("tag", TagController::class);
     Route::get("tag/search/{tag}", [TagController::class, "search"]);
@@ -129,24 +140,25 @@ Route::apiResource('message', MessageController::class);
     Route::post("bolidaai", [ChatController::class, 'generateResponse']);
 
 
-
-    route::apiResource("post", PostController::class);
+    Route::get("/post/filter/{tag}", [PostController::class,"filterByTag"]);
+    route::apiResource("post", PostController::class)->except('filterByTag');
     route::get("/reaction/{postId}", [ReactionController::class,"index"]);
     route::apiResource("reaction", ReactionController::class)->except("index");
 
     Route::get('commentaire/{postid}', [\App\Http\Controllers\CommentaireController::class, 'index']);
-    Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class)->except('index');
+    Route::delete('commentaire/{commentaire}', [\App\Http\Controllers\CommentaireController::class, 'destroy']);
+    Route::apiResource('commentaire', \App\Http\Controllers\CommentaireController::class)->except(['index', 'destroy']);
     // route::get("/tag/prompt/{prompt}", [TagController::class,"getTagByPrompt"]);
     // route::apiResource("tag", ProjectController::class)->except("index");
+    Route::get("/userprofile/{userId}", [UserProfileController::class,"show"]);
+    Route::put("/userprofile/{profileId}", [UserProfileController::class,"update"]);
+    Route::apiResource("userprofile", UserProfileController::class)->except(["show", "update"]);
 
+    Route::apiResource("course", CourseController::class);
+    Route::apiResource("category", CategoryController::class);
+
+    // PyWendi part ressource routes
+    Route::apiResource("ressource", RessourceController::class);
+    Route::get("/ressource/download/{ressourceId}", [RessourceController::class, "download"]);
 });
-
-
-Route::apiResource("course", CourseController::class);
-
-Route::apiResource("category", CategoryController::class);
-
-route::get("/userProfile/{userId}", [UserProfileController::class,"show"]);
-route::apiResource("userProfile", UserProfileController::class)->except("show");
-
 

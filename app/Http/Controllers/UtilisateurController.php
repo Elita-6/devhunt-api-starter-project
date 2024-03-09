@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User as Utilisation;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -71,6 +72,26 @@ class UtilisateurController extends Controller
 //                        $loginuser->forceFill(['api_token' => $token])->save();
                        $cookie = cookie('jwt', $token, 60 * 24);
 
+
+                       $gen = new GenUuid();
+                       UserProfile::firstOrCreate(
+                           [
+                               'userId'=>Auth::user()->userId
+                           ],
+                           [
+                               "profileId" => $gen->genUuid(),
+                               "description" => 'Your own userProfile',
+                               "linkGithub" => 'www.github.com',
+                               "linkLinkedin" => 'www.linkdin.com',
+                               "linkPortfolio" => 'your portfolio link',
+                               "isProf" => false,
+                               "userId" => Auth::user()->userId,
+                               "parcourId" => null,
+                               "level" => 'Your own level',
+                               "porteId" => null,
+                           ]);
+
+
                        // dd(Auth::user());
                        return response([
                            'message' => "Succes",
@@ -104,7 +125,6 @@ class UtilisateurController extends Controller
                                  'profileUrl' => $request->input('profileUrl')
                           ]);
 
-//                 dd($loginuser->mail);
 
 
                if($loginuser){
@@ -116,7 +136,29 @@ class UtilisateurController extends Controller
 
                     $token = JWTAuth::fromUser($loginuser, ['userid'=>$loginuser->userId]);
 //                    $loginuser->forceFill(['api_token' => $token])->save();
-                   $cookie = cookie('jwt', $token, 60 * 24);
+                   $cookie = cookie('jwt', $token, 24 * 60 * 60);
+
+                   $gen = new GenUuid();
+
+//            dd($data["description"]);
+
+                   UserProfile::firstOrCreate(
+                       [
+                           'userId'=>Auth::user()->userId
+                       ],
+                       [
+                       "profileId" => $gen->genUuid(),
+                       "description" => 'Your own userProfile',
+                       "linkGithub" => 'www.github.com',
+                       "linkLinkedin" => 'www.linkdin.com',
+                       "linkPortfolio" => 'your portfolio link',
+                       "isProf" => false,
+                       "userId" => Auth::user()->userId,
+                       "parcourId" => null,
+                       "level" => 'Your own level',
+                       "porteId" => null,
+                   ]);
+
 
                    // dd(Auth::user());
                    return response([
@@ -128,6 +170,8 @@ class UtilisateurController extends Controller
                else{
                    return response()->json(["message" => "Error creating"], 401);
                }
+
+
 
            }
            catch (\Exception $th)
@@ -141,27 +185,77 @@ class UtilisateurController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Utilisation $utilisateur)
+    public function show()
     {
-        return response()->json($utilisateur);
+        return response()->json(Auth::user());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Utilisation $utilisateur)
+    public function update(Request $request)
     {
-        $data = $request->only([
-            "username",
-            "firstName",
-            "lastName",
-            "profileUrl",
-            "email",
-        ]);
+        $user = Utilisation::where('userId', Auth::user()->userId)->first();
+        if($request->file('profile') != null)
+        {
+            $request->validate([
+                'file' => 'required|image|mimes:png,jpg,jpeg,gif'
+            ]);
 
-        $utilisateur->update($data);
+            try
+            {
+                $file = $request->file('profile');
+                $filename = 'pdp_'.$request->input('userName').'.'.$file->getClientOriginalExtension();
+                $path = $file->storeAs('images', $filename, 'public');
 
-        return response()->json(["utilisateur" => $utilisateur], 200);
+
+                        $user->userName = $request->input('username');
+                        $user->firstName = $request->input('firstName');
+                        $user->lastName = $request->input('lastName');
+                        $user->email = $request->input('email');
+                        $user->profileUrl = $path;
+
+                        $user->save();
+
+
+                    // dd(Auth::user());
+                    return response([
+                        'message' => "Succes",
+                        'userid' => Auth::user()->userId
+                    ], 200);
+
+            }
+            catch (\Exception $th)
+            {
+                return response()->json(["created"=>false, "errorMessage"=>$th->getMessage()], 500);
+            }
+        }
+
+        else {
+            try
+            {
+                // dd($request->all());
+
+
+                $user->userName = $request->input('username');
+                $user->firstName = $request->input('firstName');
+                $user->lastName = $request->input('lastName');
+                $user->email = $request->input('email');
+
+                $user->save();
+
+                // dd(Auth::user());
+                return response([
+                    'message' => "Succes",
+                    'userid' => Auth::user()->userId
+                ], 200);
+
+            }
+            catch (\Exception $th)
+            {
+                return response()->json(["created"=>false, "errorMessage"=>$th->getMessage()], 500);
+            }
+        }
     }
 
     /**

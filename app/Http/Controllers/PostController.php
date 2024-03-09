@@ -71,6 +71,57 @@ class PostController extends Controller
         }
     }
 
+
+    public function filterByTag($tag){
+        $posts = Post::whereHas('tags', function ($query) use ($tag) {
+            $query->where('tagDesign', 'like', '%' .$tag. '%');
+        })->get();
+
+        $data = [];
+
+        foreach ($posts as $post) {
+            $tags = [];
+            $comments = [];
+            // get tags
+            foreach ($post->tags as $tag) {
+//                dd("trigger ss");
+                array_push($tags, [$tag->tagDesign]);
+            }
+
+            // Get comments
+            foreach ($post->comments as $comment) {
+
+                array_push($comments, [
+                    "content" => $comment->content,
+                    "dateComment" => $comment->created_at,
+                    "user" => [
+                        "userId"=> $comment->user->userId,
+                        "userName" => $post->user->userName,
+                        "firstName" => $post->user->firstName,
+                        "profileUrl"=> $post->user->profileUrl,
+                    ],
+                ]);
+            }
+
+            // Set all data together
+            array_push($data, [
+                "postId" => $post->postId,
+                "postDescription" => $post->postDescription,
+                "dateCreation" => $post->created_at,
+                "user" => [
+                    "userId" => $post->user->userId,
+                    "userName" => $post->user->userName,
+                    "firstName" => $post->user->firstName,
+                    "profileUrl" => $post->user->profileUrl,
+                ],
+                "tags"=> $tags,
+                "comments" => $comments,
+            ]);
+        }
+
+        return response()->json($data, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -18,14 +18,23 @@ class ProfileTechController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $profileid)
     {
-        ProfileTech::create($request->only([
-            "profileId",
-            "technologyId"
-        ]));
+        $techid = $request->input("added");
+        $removed = $request->input("removed");
+       foreach ($techid as $id){
+           ProfileTech::create([
+               'profileId' => $profileid,
+               'technologyId' => $id
+           ]);
+       }
 
-        return response()->json([], 201);
+       foreach ($removed as $id){
+           $tech = ProfileTech::where('technologyId', $id)->where('profileId', $profileid)->first();
+           $tech->delete();
+       }
+
+        return response()->json(["message"=>"success"], 200);
     }
 
     /**
@@ -47,8 +56,12 @@ class ProfileTechController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProfileTech $profileTech)
+    public function destroy($profile, $tech)
     {
         //
+
+        ProfileTech::where('technologyId', $tech)->where('profileId', $profile)->delete();
+
+        return response()->json(["message"=>"deleted"], 201);
     }
 }

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Experience;
 use App\Models\ProfileTech;
+use App\Models\Project;
+use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
@@ -35,16 +39,19 @@ class UserProfileController extends Controller
                 "porteId"
             ]);
 
+//            dd($data["description"]);
+
             $profile = UserProfile::create([
                 "profileId" => $gen->genUuid(),
-                "description" => $data["description"],
-                "linkGithub" => $data["linkGithub"],
-                "linkLinkedin" => $data["linkLinkedin"],
-                "linkPortfolio" => $data["linkPortfolio"],
-                "isProf" => $data["isProf"],
-                "userId" => $data["userId"],
-                "parcourId" => $data["parcourId"],
-                "porteId" => $data["porteId"],
+                "description" => $request->input("description"),
+                "linkGithub" => $request->input("linkGithub"),
+                "linkLinkedin" => $request->input("linkLinkedin"),
+                "linkPortfolio" => $request->input("linkPortfolio"),
+                "isProf" => $request->input("isProf"),
+                "userId" => Auth::user()->userId,
+                "parcourId" => $request->input("parcourId"),
+                "level" => $request->input('level'),
+                "porteId" => $request->input("porteId"),
             ]);
 
 
@@ -57,55 +64,63 @@ class UserProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $userId)
+    public function show($userId)
     {
         try {
             $porte = null;
             $technology = [];
-            $experience = [];
+            $experiences = [];
+            $projects = Project::where('userId', $userId)->get();
+            $user = User::where("userId", $userId)->first();
 
             $userProfile = UserProfile::where("userId", $userId)->first();
+//             dd($userProfile->userId);
+            // dd($userProfile->experiences);
 
-            if ($userProfile->porteId != null){
-                $porte = $userProfile->porteId;
-            }
+//            if ($userProfile->porteId != null){
+//                $porte = $userProfile->porteId;
+//            }
+//            dd($userProfile->technologies);
+             if($userProfile != null){
+                 if($userProfile->technologies != null){
+                     foreach ($userProfile->technologies as $tech) {
+                         array_push($technology, [
+                             "technologyId"=> $tech->technologyId,
+                             "technologyDesignation" => $tech->technologyDesignation
+                         ]);
+                     };
+                 }
 
-            // if($userProfile->technologies() != null){
-                foreach ($userProfile->technologies as $tech) {
-                    // dd($tech);
-                    array_push($technology, $tech);
-                };
-                // }
+                 if($userProfile->experiences != null){
+                     foreach ($userProfile->experiences as $expe) {
+                         array_push($experiences, $expe);
+                     }
+                 }
 
-                // dd($userProfile->experiences()[0]);
-                foreach ($userProfile->experiences as $expe) {
-                    dd($expe[0]);
-                    array_push($experience, $expe);
-                }
+                 if($userProfile->parcour != null){
+                     $parcour = $userProfile->parcour->parcourDesign;
+                 }else{$parcour = '';}
 
-            $data = [
-                "description"=>$userProfile->description,
-                "linkGithub"=>$userProfile->linkGithub,
-                "linkLinkedin"=>$userProfile->linkLinkedin,
-                "linkPortfolio"=>$userProfile->linkPortfolio,
-                "isProf"=>$userProfile->isProf,
-                "user"=>[
-                    "id"=>$userProfile->user->userId,
-                    "userName"=>$userProfile->user->userName,
-                    "firstName"=>$userProfile->user->firstName,
-                    "lastName"=>$userProfile->user->lastName,
-                    "email"=>$userProfile->user->email,
-                    "profileUrl"=> $userProfile->user->profile,
-                    "contact"=> $userProfile->user->contact,
+                 $data = [
+                     "profileId" => $userProfile->profileId,
+                     "description"=>$userProfile->description,
+                     "linkGithub"=>$userProfile->linkGithub,
+                     "linkLinkedin"=>$userProfile->linkLinkedin,
+                     "linkPortfolio"=>$userProfile->linkPortfolio,
+                     "level" => $userProfile->level,
+                     "isProf"=>$userProfile->isProf,
+                     "user"=>$user,
+                     "parcour"=>$parcour,
+//                "porte"=>$porte,
+                     "technology"=>$technology,
+                     "experiences"=> $experiences,
+                     "projects" => $projects
+                 ];
 
-                ],
-                "parcour"=>$userProfile->parcour->title,
-                "porte"=>$porte,
-                "technologies"=>$technology,
-                "experience"=> $experience,
-            ];
+                 return response()->json($data);
+             }
 
-            return response()->json($data);
+             return response()->json([], 204);
 
         } catch (\Exception $th) {
             return response()->json([
@@ -118,7 +133,7 @@ class UserProfileController extends Controller
     /**,
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserProfile $userProfile)
+    public function update(Request $request, $profileId)
     {
         try {
             $data = $request->only([
@@ -128,11 +143,23 @@ class UserProfileController extends Controller
                 "linkPortfolio",
                 "isProf",
                 "userId",
+                "level",
                 "parcourId",
                 "porteId"
             ]);
 
-            $userProfile->update($data);
+            $userProfile = UserProfile::where('profileId', $profileId)->first();
+
+            $userProfile->description = $data['description'];
+            $userProfile->linkGithub = $data['linkGithub'];
+            $userProfile->linkLinkedin = $data['linkLinkedin'];
+            $userProfile->linkPortfolio = $data['linkPortfolio'];
+            $userProfile->isProf = $data['isProf'];
+            $userProfile->level = $data['level'];
+            $userProfile->parcourId = $data['parcourId'];
+//            $userProfile->porteId = $data['porteId'];
+
+            $userProfile->save();
 
             return response()->json(["profile"=>$userProfile],200);
         } catch (\Exception $th) {
