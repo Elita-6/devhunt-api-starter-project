@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Reaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReactionController extends Controller
 {
@@ -15,10 +16,12 @@ class ReactionController extends Controller
     {
         $post = Post::where("postId", $postId)->first();
         $ids = [];
-        // dd($post->user_reagis);
-        foreach ($post->user_reagis as $reactor) {
-            array_push($ids, $reactor->userId);
-        }
+        // dd($post);
+        // if ($post->user_reagis != null){
+            foreach ($post->user_reagis as $reactor) {
+                array_push($ids, $reactor->userId);
+            }
+        // }
 
         return response()->json(["ids"=>$ids], 200);
     }
@@ -28,10 +31,25 @@ class ReactionController extends Controller
      */
     public function store(Request $request)
     {
-        $post = Post::create($request->only([
-            "postId",
-            "userId"
-        ]));
+        $reactionExist = Reaction::where([
+            "userId" => Auth::user()->userId,
+            "postId" => $request->input("postId"),
+            ])->exists();
+        if($reactionExist) {
+
+            Reaction::where([
+                "userId" => Auth::user()->userId,
+                "postId" => $request->input("postId"),
+                ])->delete();
+
+
+        } else {
+            Reaction::create([
+                "postId" => $request->input("postId"),
+                "userId"=> Auth::user()->userId,
+            ]);
+        }
+        return response()->json(201);
     }
 
     /**
@@ -53,7 +71,7 @@ class ReactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reaction $reaction)
+    public function destroy(Request $request, Reaction $reaction)
     {
         try {
             $reaction->delete();
