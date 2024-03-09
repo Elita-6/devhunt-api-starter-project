@@ -154,7 +154,7 @@ class UserProfileController extends Controller
             $userProfile->linkGithub = $request->input('linkGithub');
             $userProfile->linkLinkedin = $request->input('linkLinkedin');
             $userProfile->linkPortfolio = $request->input('linkPortfolio');
-            $userProfile->isProf = $request->input('isProf');
+            $userProfile->isProf = false;
             $userProfile->level = $request->input('level');
             $userProfile->parcourId = $request->input('parcourId');
 //            $userProfile->porteId = $data['porteId'];
