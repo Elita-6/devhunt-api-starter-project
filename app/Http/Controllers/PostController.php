@@ -20,7 +20,12 @@ class PostController extends Controller
     {
 
         try {
-            $posts = Post::orderBy("created_at","desc")->get();
+            // $currentPage = $request->input('page', 1);
+            // $perPage = $request->input('per_page', 10);
+
+            // $startIndex = ($currentPage - 1) * $perPage;
+
+            $posts = Post::orderBy("created_at","desc")->offset(0)->limit(10)->get();
 
             $data = [];
 
