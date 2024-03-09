@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_profiles', function (Blueprint $table) {
-            $table->string('level', 5)->nullable();
-        });
+        // Schema::table('user_profiles', function (Blueprint $table) {
+        //     $table->string('level', 5)->nullable();
+        // });
     }
 
     /**
